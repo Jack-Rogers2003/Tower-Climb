@@ -9,6 +9,11 @@ public class MenuController : MonoBehaviour
         SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);  // Load the gameplay scene
     }
 
+    public void LoadOptions()
+    {
+        SceneManager.LoadScene("OptionsMenu", LoadSceneMode.Additive);  // Load the options scene
+    }
+
     // Quit the game
     public void ExitGame()
     {
