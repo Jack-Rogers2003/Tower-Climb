@@ -2,46 +2,41 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+
 public class VolumeControl : MonoBehaviour
 {
     public Slider volumeSlider;
     public TextMeshProUGUI volumePercentage;
-   // Updated to match exact name
 
-    void Start()
+    private void Start()
     {
-        // Load saved volume and set slider value
-        float savedVolume = PlayerPrefs.GetFloat("MusicVolume", 1f);
+        // Load saved volume setting
+        float savedVolume = PlayerPrefs.GetFloat("MusicVolume", 0.5f);
         volumeSlider.value = savedVolume;
 
-        // Update text
         UpdateVolumeText(savedVolume);
 
-        // Add listener for changes
+
+        // Add listener to detect slider changes
         volumeSlider.onValueChanged.AddListener(SetVolume);
     }
 
-    void SetVolume(float volume)
+    private void SetVolume(float volume)
     {
-        // Find the MusicManager and update volume
-        MusicManager musicManager = FindObjectOfType<MusicManager>();
-        if (musicManager != null)
+        // Find AudioManager and update volume
+        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        if (audioManager != null)
         {
-            musicManager.SetVolume(volume);
+            audioManager.SetVolume(volume);
         }
-
-        // Save volume setting
-        PlayerPrefs.SetFloat("MusicVolume", volume);
-        PlayerPrefs.Save();
-
-        // Update percentage text
         UpdateVolumeText(volume);
+
     }
 
     void UpdateVolumeText(float volume)
     {
         int percentage = Mathf.RoundToInt(volume * 100);
         volumePercentage.text = percentage + "%";
-     
+
     }
 }
