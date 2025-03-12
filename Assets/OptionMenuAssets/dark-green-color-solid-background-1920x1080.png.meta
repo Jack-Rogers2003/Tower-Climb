@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      dark-green-color-solid-background-1920x1080_0: 1624762443388600498
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

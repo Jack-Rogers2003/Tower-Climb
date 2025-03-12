@@ -24,7 +24,7 @@ public class VolumeControl : MonoBehaviour
     private void SetVolume(float volume)
     {
         // Find AudioManager and update volume
-        AudioManager audioManager = FindObjectOfType<AudioManager>();
+        AudioManager audioManager = FindFirstObjectByType<AudioManager>();
         if (audioManager != null)
         {
             audioManager.SetVolume(volume);

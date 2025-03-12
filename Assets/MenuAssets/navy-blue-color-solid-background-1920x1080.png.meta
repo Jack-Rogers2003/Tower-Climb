@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      navy-blue-color-solid-background-1920x1080_0: -2281355775468378386
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

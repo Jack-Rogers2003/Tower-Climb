@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 40641b4d5090c2a499bca65e445e05d7
+guid: 5acffa8a85f85954e9490cc97cbab038
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8419024768148562069
-    second: 41_0
+      213: 3272149345368182951
+    second: WhiteMage_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 41_0
+      name: WhiteMage_0
       rect:
         serializedVersion: 2
-        x: 44
-        y: 31
-        width: 43
-        height: 72
+        x: 41
+        y: 23
+        width: 42
+        height: 79
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6f1a4b449d992b80800000000000000
-      internalID: -8419024768148562069
+      spriteID: 7a092b63e72096d20800000000000000
+      internalID: 3272149345368182951
       vertices: []
       indices: 
       edges: []
@@ -134,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      41_0: -8419024768148562069
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
