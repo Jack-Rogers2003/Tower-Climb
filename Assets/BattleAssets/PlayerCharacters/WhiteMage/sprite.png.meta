@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 5acffa8a85f85954e9490cc97cbab038
+guid: c817d9cd2ce14e44b9073041968305c7
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3272149345368182951
-    second: WhiteMage_0
+      213: -4298345892085953899
+    second: sprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,7 +100,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WhiteMage_0
+      name: sprite_0
       rect:
         serializedVersion: 2
         x: 41
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7a092b63e72096d20800000000000000
-      internalID: 3272149345368182951
+      spriteID: 59a057c4f253954c0800000000000000
+      internalID: -4298345892085953899
       vertices: []
       indices: 
       edges: []

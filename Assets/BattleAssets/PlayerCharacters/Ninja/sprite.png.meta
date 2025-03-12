@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 2db35bd7a47ae2e4abec65ca4f5b95ed
+guid: 4821b6498fec24e4a94a29eaa14d27fe
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1372335161102834277
-    second: Dragon_0
+      213: -4298345892085953899
+    second: sprite_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Dragon_0
+      name: sprite_0
       rect:
         serializedVersion: 2
-        x: 9
-        y: 18
-        width: 110
-        height: 96
+        x: 31
+        y: 17
+        width: 66
+        height: 94
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 56a105ede838b0310800000000000000
-      internalID: 1372335161102834277
+      spriteID: 59a057c4f253954c0800000000000000
+      internalID: -4298345892085953899
       vertices: []
       indices: 
       edges: []

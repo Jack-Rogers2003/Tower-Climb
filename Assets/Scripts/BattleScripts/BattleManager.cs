@@ -7,16 +7,19 @@ using static UnityEngine.UI.CanvasScaler;
 public class BattleManager : MonoBehaviour
 {
     private List<Hero> heroes = new List<Hero>();
-    private List<Unit> enemies;
-    private GameObject panel;
+    private List<Enemy> enemies = new List<Enemy>();
     private int nextHero = 1;
+    private int nextEnemy = 1;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        panel = GameObject.Find("Panel");
         SpawnHero("/PlayerCharacters/Warrior");
-        SpawnEnemy("Dragon.txt");
+        SpawnHero("/PlayerCharacters/Ninja");
+        SpawnHero("/PlayerCharacters/BlackMage");
+        SpawnHero("/PlayerCharacters/WhiteMage");
+        SpawnEnemy("/EnemyCharacters/Dragon");
+        
     }
 
     private void SpawnHero(string filePath)
@@ -33,11 +36,13 @@ public class BattleManager : MonoBehaviour
 
     private void SpawnEnemy(string filePath)
     {
-        /*
-        GameObject enemnyObj = new GameObject("Enemy");
-        Enemy enemy = enemnyObj.GetComponent<Enemy>();
+        GameObject enemyObject = GameObject.Find("EnemyUnit" + nextEnemy);
+        Enemy enemy = enemyObject.AddComponent<Enemy>();
         enemy.Initialize(filePath);
         enemies.Add(enemy);
-        */
+        SpriteRenderer spriteRenderer = enemyObject.GetComponent<SpriteRenderer>();
+        Sprite toAdd = enemy.GetSprite();
+        spriteRenderer.sprite = enemy.GetSprite();
+        nextEnemy++;
     }
 }
