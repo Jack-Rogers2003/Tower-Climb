@@ -1,7 +1,5 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
-using static UnityEngine.UI.CanvasScaler;
 
 
 public class BattleManager : MonoBehaviour
@@ -11,7 +9,6 @@ public class BattleManager : MonoBehaviour
     private int nextHero = 1;
     private int nextEnemy = 1;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         SpawnHero("/PlayerCharacters/Warrior");
@@ -31,6 +28,7 @@ public class BattleManager : MonoBehaviour
         SpriteRenderer spriteRenderer = heroObj.GetComponent<SpriteRenderer>();
         Sprite toAdd = hero.GetSprite();
         spriteRenderer.sprite = hero.GetSprite();
+        hero.GetAbilities(filePath);
         nextHero++;
     }
 
