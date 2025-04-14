@@ -4,6 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
+
+    public void Awake()
+    {
+     DatabaseManager.Initialize();   
+    }
+
+
     // Start the game and load the GameScene
     public void StartGame()
     {
