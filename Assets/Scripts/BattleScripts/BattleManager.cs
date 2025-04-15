@@ -48,7 +48,6 @@ public class BattleManager : MonoBehaviour
 
     public void PauseGame()
     {
-        EventSystem.current.enabled = false;
-        SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
+        SceneManager.LoadScene("PauseMenu", LoadSceneMode.Single);
     }
 }
