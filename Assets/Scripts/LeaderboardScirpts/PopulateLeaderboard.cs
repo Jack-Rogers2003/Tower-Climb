@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
+using Firebase.Database;
 
 
 public class PopulateLeaderboard : MonoBehaviour
@@ -21,15 +22,23 @@ public class PopulateLeaderboard : MonoBehaviour
 
     public async void Start()
     {
-        // Example usage
-        AddLine("<mark=#FF0000>Welcome to the dynamic Scroll View!</mark>");
-        AddLine("Line 2: You can add text at runtime.");
-        AddLine("Line 3: This is added automatically.");
-        AddLine("Line 7: This is added automatically.");
+        AddLine("<mark=#FF0000>Welcome to the Leaderboard!</mark>");
 
-        List<string> list = await DatabaseManager.ReadData();
+        List<(string, string)> list = await DatabaseManager.ReadData();
 
-        AddLine(list[0]);
+        foreach (var pair in list)
+        {
+            if (pair.Item1 == PlayerPrefs.GetString("id"))
+            {
+                AddLine("<mark=#FF0000>ID: #" + pair.Item1 + " Username: " + pair.Item2 + "</mark>");
+
+            }
+            else
+            {
+                AddLine("ID: #" + pair.Item1 + " Username: " + pair.Item2);
+
+            }
+        }
 
 
 

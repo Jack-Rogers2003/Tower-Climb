@@ -11,7 +11,7 @@ public class DatabaseManager : MonoBehaviour
     // Firebase reference
     private static DatabaseReference reference;
     private static bool isFirebaseInitialized = false;
-    private static string uri = "https://csc384leaderboard-default-rtdb.europe-west1.firebasedatabase.app/";
+    private static readonly string uri = "https://csc384leaderboard-default-rtdb.europe-west1.firebasedatabase.app/";
 
 
     // Singleton instance to access the FirebaseManager from anywhere
@@ -29,7 +29,6 @@ public class DatabaseManager : MonoBehaviour
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                Debug.Log("Firebase ready");
                 FirebaseApp.DefaultInstance.Options.DatabaseUrl =
                     new System.Uri(uri);
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -42,30 +41,65 @@ public class DatabaseManager : MonoBehaviour
         });
     }
 
-    public static async Task<List<string>> ReadData()
+    public static async Task<List<(string, string)>> ReadData()
     {
-        if (!isFirebaseInitialized)
+        List<(string, string)> keyValues = new List<(string, string)>();
+
+        var task = reference.GetValueAsync();
+        await task.ContinueWithOnMainThread(t =>
         {
-            Debug.LogWarning("Firebase is not initialized yet. Please call FirebaseManager.Initialize() first.");
-            return null;
-        }
+            if (t.IsCompleted)
+            {
+                DataSnapshot snapshot = t.Result;
+                foreach (DataSnapshot childSnapshot in snapshot.Children)
+                {
+                    keyValues.Add((childSnapshot.Key, childSnapshot.Child("Username").Value.ToString()));
+                }
+            }
+            else
+            {
+                Debug.LogError("Error getting data: " + t.Exception);
+            }
+        });
 
-        try
-        {
-            var snapshot = await reference.Child("test").GetValueAsync();
-            Debug.Log(snapshot.Value);
-            List<string> keyValues = new List<string>();
-
-            keyValues.Add((string)snapshot.Value);
-
-
-            return keyValues;
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError("Error getting children: " + ex.Message);
-            return null;
-        }
-
+        return keyValues;
     }
+
+
+
+    public static void CreateNewUser(string username)
+    {
+        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                int id = (int)snapshot.ChildrenCount + 1;
+                reference.Child((id).ToString()).Child("Username").SetValueAsync(username);
+                PlayerPrefs.SetString("id", id.ToString());
+            }
+            else
+            {
+                Debug.LogError("Error adding data: " + task.Exception);
+            }
+        });
+    }
+
+    public static void UpdateUsername(string username)
+    {
+        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsCompleted)
+            {
+                DataSnapshot snapshot = task.Result;
+                string id = PlayerPrefs.GetString("id");
+                reference.Child((id).ToString()).Child("Username").SetValueAsync(username);
+            }
+            else
+            {
+                Debug.LogError("Error adding data: " + task.Exception);
+            }
+        });
+    }
+
 }

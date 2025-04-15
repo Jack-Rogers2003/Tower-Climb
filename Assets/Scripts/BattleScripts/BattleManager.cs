@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 
 public class BattleManager : MonoBehaviour
@@ -42,5 +44,11 @@ public class BattleManager : MonoBehaviour
         Sprite toAdd = enemy.GetSprite();
         spriteRenderer.sprite = enemy.GetSprite();
         nextEnemy++;
+    }
+
+    public void PauseGame()
+    {
+        EventSystem.current.enabled = false;
+        SceneManager.LoadScene("PauseMenu", LoadSceneMode.Additive);
     }
 }

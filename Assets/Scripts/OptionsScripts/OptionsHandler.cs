@@ -1,15 +1,22 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class OptionsHandler : MonoBehaviour
 {
-    // Start the game and load the GameScene
-    public void closeOptions()
-    {
-        StartCoroutine(CloseOptionsRoutine());
+    public TMP_InputField userInput;
 
+    private void Awake()
+    {
+        userInput.text = PlayerPrefs.GetString("UserName");
+    }
+
+
+    // Start the game and load the GameScene
+    public void CloseOptions()
+    {
         Scene scene = SceneManager.GetSceneByName("MainMenu");
         foreach (GameObject rootObj in scene.GetRootGameObjects())
         {
@@ -17,14 +24,19 @@ public class OptionsHandler : MonoBehaviour
             if (es != null)
                 es.enabled = true;
         }
+
+        SceneManager.UnloadSceneAsync("OptionsMenu");
     }
 
-    private IEnumerator CloseOptionsRoutine()
+    public void ChangeName()
     {
-        // Unload the overlay scene
-        yield return SceneManager.UnloadSceneAsync("OptionsMenu");
+        string newName = userInput.text;
 
-        // Wait one frame to let the current click release
-        yield return null;
+        if (newName != string.Empty)
+        {
+            PlayerPrefs.SetString("UserName", newName);
+            DatabaseManager.UpdateUsername(newName);
+        }
     }
+
 }
