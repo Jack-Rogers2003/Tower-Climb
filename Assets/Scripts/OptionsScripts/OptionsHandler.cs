@@ -35,6 +35,7 @@ public class OptionsHandler : MonoBehaviour
         if (newName != string.Empty)
         {
             PlayerPrefs.SetString("UserName", newName);
+            PlayerPrefs.Save();
             DatabaseManager.UpdateUsername(newName);
         }
     }

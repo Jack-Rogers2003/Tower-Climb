@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "467248668876",
+    "firebase_url": "https://csc384leaderboard-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "csc384leaderboard",
+    "storage_bucket": "csc384leaderboard.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:467248668876:android:20777adbd4af3413c02269",
+        "android_client_info": {
+          "package_name": "com.leaderboard.firebasedb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBisMBINsFHK2tFMIPHCAbs23qd8sUKTrM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

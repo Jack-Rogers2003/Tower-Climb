@@ -4,13 +4,6 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour
 {
-
-    public void Awake()
-    {
-     DatabaseManager.Initialize();   
-    }
-
-
     // Start the game and load the GameScene
     public void StartGame()
     {
@@ -34,7 +27,10 @@ public class MenuController : MonoBehaviour
     public void ExitGame()
     {
         Application.Quit();  // This will close the game
-        UnityEditor.EditorApplication.isPlaying = false;  // Stop the game in the editor
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        // Stop the game in the editor
     }
 
     public void activateEventSystem()

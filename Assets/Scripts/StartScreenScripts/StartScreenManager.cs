@@ -6,12 +6,15 @@ public class StartScreenManager : MonoBehaviour
 {
     public TMP_InputField userInput;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         DatabaseManager.Initialize();
-        string usernname = PlayerPrefs.GetString("UserName", "");
-        if(usernname != "")
+        SceneManager.LoadScene("AudioManagerService", LoadSceneMode.Additive);
+
+        string usernname = PlayerPrefs.GetString("UserName", string.Empty);
+        if(usernname != string.Empty)
         {
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
@@ -21,7 +24,10 @@ public class StartScreenManager : MonoBehaviour
     public void ExitScreen()
     {
         Application.Quit();  // This will close the game
-        UnityEditor.EditorApplication.isPlaying = false;  // Stop the game in the editor
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
+        // Stop the game in the editor
     }
 
    public void EnterButton()
@@ -32,6 +38,7 @@ public class StartScreenManager : MonoBehaviour
         {
             DatabaseManager.CreateNewUser(enteredText);
             PlayerPrefs.SetString("UserName", enteredText);
+            PlayerPrefs.Save();
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
     }

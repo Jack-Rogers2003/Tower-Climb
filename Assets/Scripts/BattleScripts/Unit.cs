@@ -1,31 +1,48 @@
 using UnityEngine;
 using System.IO;
-using UnityEditor;
+using Unity.VisualScripting;
+
 
 public abstract class Unit : MonoBehaviour
 {
     // Common properties for all units
     public string unitName;
-    private int health;
+    private int maxHealth;
+    private int currentHealth;
     private int attackPower;
     private int defence;
     private int speed;
     private Sprite unitSprite;
     private bool isDead = false;
-    private string filePath = Path.Combine(Application.dataPath, "BattleAssets");
+    private readonly string filePath = Path.Combine(Application.dataPath, "BattleAssets");
 
+    private IUnitState currentState;
+
+
+    private void Awake()
+    {
+        ChangeState(new DefaultState(this));
+
+    }
+
+    public void ChangeState(IUnitState newState)
+    {
+        currentState?.Exit();  // Exit the current state
+        currentState = newState;
+        currentState.Enter();   // Enter the new state
+    }
 
     public bool IsAlive()
     {
         return isDead;
     }
 
-    public void Attack(int damage)
+    public void DamageUnit(int damage)
     {
-        health -= damage;
-        if (health <= 0)
+        maxHealth -= damage;
+        if (maxHealth <= 0)
         {
-            health = 0;
+            maxHealth = 0;
             isDead = true;
         }
     }
@@ -35,9 +52,10 @@ public abstract class Unit : MonoBehaviour
         string pathForStats = filePath + filePathToUnit + "/stats.txt";
         if (File.Exists(pathForStats))
         {
-            StreamReader reader = new StreamReader(pathForStats);
+            StreamReader reader = new(pathForStats);
             unitName = reader.ReadLine();
-            health = int.Parse(reader.ReadLine());
+            maxHealth = int.Parse(reader.ReadLine());
+            currentHealth = maxHealth;
             attackPower = int.Parse(reader.ReadLine());
             defence = int.Parse(reader.ReadLine());
             speed = int.Parse(reader.ReadLine());
@@ -46,7 +64,7 @@ public abstract class Unit : MonoBehaviour
         byte[] fileData = File.ReadAllBytes("Assets/BattleAssets" + filePathToUnit + "/sprite.png");
 
         // Create a new Texture2D object
-        Texture2D texture = new Texture2D(1, 1); 
+        Texture2D texture = new(1, 1); 
         texture.LoadImage(fileData); 
 
         unitSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
@@ -55,6 +73,16 @@ public abstract class Unit : MonoBehaviour
     public int GetAttackPower()
     {
         return attackPower;
+    }
+
+    public int GetMaxHP()
+    {
+        return maxHealth;
+    }
+
+    public int GetCurrentHP()
+    {
+        return currentHealth;
     }
 
     public string GetName()

@@ -1,6 +1,5 @@
 using System.IO;
 
-
 public class Hero: Unit
 {
     private string[][] abilities;
