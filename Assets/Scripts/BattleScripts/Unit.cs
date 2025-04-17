@@ -13,7 +13,7 @@ public abstract class Unit : MonoBehaviour
     private int defence;
     private int speed;
     private Sprite unitSprite;
-    private bool isDead = false;
+    private bool isAlive = true;
     private readonly string filePath = Path.Combine(Application.dataPath, "BattleAssets");
 
     private IUnitState currentState;
@@ -34,16 +34,15 @@ public abstract class Unit : MonoBehaviour
 
     public bool IsAlive()
     {
-        return isDead;
+        return isAlive;
     }
 
     public void DamageUnit(int damage)
     {
-        maxHealth -= damage;
-        if (maxHealth <= 0)
+        currentHealth -= damage;
+        if (currentHealth <= 0)
         {
-            maxHealth = 0;
-            isDead = true;
+            isAlive = false;
         }
     }
 

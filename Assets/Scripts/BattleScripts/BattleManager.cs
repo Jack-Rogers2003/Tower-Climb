@@ -25,6 +25,11 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    public void AttackButton()
+    {
+        enemy.DamageUnit(10);
+    }
+
     void Update()
     {
         Collider2D spriteCollider = GameObject.Find("EnemyUnit").GetComponent<BoxCollider2D>();
@@ -39,6 +44,20 @@ public class BattleManager : MonoBehaviour
         else
         {
             targetNameAndHPText.text = "";
+        }
+
+        if (!enemy.IsAlive())
+        {
+            PlayerPrefs.SetInt("HasWon", 1);
+            int currentBattles = int.Parse(PlayerPrefs.GetString("BattleCount", "0"));
+            PlayerPrefs.SetString("BattleCount", (currentBattles + 1).ToString());
+
+            SceneManager.LoadScene("WinLossScreen", LoadSceneMode.Single);
+        }
+        else if (!hero.IsAlive())
+        {
+            PlayerPrefs.SetInt("HasWon", 0);
+            SceneManager.LoadScene("WinLossScreen", LoadSceneMode.Single);
         }
     }
 

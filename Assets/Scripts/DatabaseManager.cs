@@ -17,31 +17,33 @@ public class DatabaseManager : MonoBehaviour
     // Singleton instance to access the FirebaseManager from anywhere
     public static void Initialize()
     {
-        if (isFirebaseInitialized)
-        {
-            return;
-        }
         // Check and resolve Firebase dependencies
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
             var dependencyStatus = task.Result;
             if (dependencyStatus == DependencyStatus.Available)
             {
-                FirebaseApp.DefaultInstance.Options.DatabaseUrl =
-                    new System.Uri(uri);
+                // Once Firebase is initialized, set the database URL and reference
+                FirebaseApp.DefaultInstance.Options.DatabaseUrl = new System.Uri(uri);
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+                // Set the initialization flag to true
                 isFirebaseInitialized = true;
+
+                Debug.Log("Firebase Initialized and Database URL set!");
             }
             else
             {
+                // Log any issues with Firebase initialization
                 Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
             }
         });
     }
 
-    public static async Task<List<(string, string)>> ReadData()
+
+    public static async Task<List<(string, string, string)>> ReadData()
     {
-        List<(string, string)> keyValues = new();
+        List<(string, string, string)> keyValues = new();
 
         var task = reference.GetValueAsync();
         await task.ContinueWithOnMainThread(t =>
@@ -51,7 +53,7 @@ public class DatabaseManager : MonoBehaviour
                 DataSnapshot snapshot = t.Result;
                 foreach (DataSnapshot childSnapshot in snapshot.Children)
                 {
-                    keyValues.Add((childSnapshot.Key, childSnapshot.Child("Username").Value.ToString()));
+                    keyValues.Add((childSnapshot.Key, childSnapshot.Child("Username").Value.ToString(), childSnapshot.Child("Battles").Value.ToString()));
                 }
             }
             else

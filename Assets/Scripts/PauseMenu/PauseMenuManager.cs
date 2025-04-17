@@ -15,7 +15,7 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ExitGame()
     {
-        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);  // Load the gameplay scene
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); 
     }
 
     public void ResumeGame()
@@ -40,7 +40,7 @@ public class PauseMenuManager : MonoBehaviour
                 } else
                 {
                     var higherPair = ranks[index - 1];
-                    nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - int.Parse(pair.Item2) + 1);
+                    nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("CurrentBattleCount", 0) + 1);
                 }
             }
         }
