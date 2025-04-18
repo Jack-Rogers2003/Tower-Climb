@@ -33,7 +33,7 @@ public class MenuController : MonoBehaviour
         // Stop the game in the editor
     }
 
-    public void activateEventSystem()
+    public void ActivateEventSystem()
     {
         EventSystem.current.enabled = true;
     }

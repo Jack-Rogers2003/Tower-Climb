@@ -46,27 +46,20 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
-    public void Initialize(string filePathToUnit)
+    public void Initialize(string unit)
     {
-        string pathForStats = filePath + filePathToUnit + "/stats.txt";
-        if (File.Exists(pathForStats))
-        {
-            StreamReader reader = new(pathForStats);
-            unitName = reader.ReadLine();
-            maxHealth = int.Parse(reader.ReadLine());
-            currentHealth = maxHealth;
-            attackPower = int.Parse(reader.ReadLine());
-            defence = int.Parse(reader.ReadLine());
-            speed = int.Parse(reader.ReadLine());
-            reader.Close();
-        }
-        byte[] fileData = File.ReadAllBytes("Assets/BattleAssets" + filePathToUnit + "/sprite.png");
+        Debug.Log(unit);
+        TextAsset textAsset = Resources.Load<TextAsset>(unit + "/Stats");
 
-        // Create a new Texture2D object
-        Texture2D texture = new(1, 1); 
-        texture.LoadImage(fileData); 
+        StreamReader reader = new(new MemoryStream(textAsset.bytes));
+        unitName = reader.ReadLine();
+        maxHealth = int.Parse(reader.ReadLine());
+        currentHealth = maxHealth;
+        attackPower = int.Parse(reader.ReadLine());
+        defence = int.Parse(reader.ReadLine());
+        speed = int.Parse(reader.ReadLine());
+        reader.Close();
 
-        unitSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }
 
     public int GetAttackPower()

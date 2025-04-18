@@ -46,19 +46,43 @@ public class DatabaseManager : MonoBehaviour
         var task = reference.GetValueAsync();
         await task.ContinueWithOnMainThread(t =>
         {
-            if (t.IsCompleted)
+            if (!t.IsCompleted || t.IsFaulted || t.Exception != null)
             {
-                DataSnapshot snapshot = t.Result;
-                foreach (DataSnapshot childSnapshot in snapshot.Children)
-                {
-
-                    Debug.Log($"{childSnapshot.Key}");
-                    keyValues.Add((childSnapshot.Key, childSnapshot.Child("Username").Value.ToString(), childSnapshot.Child("Battles").Value.ToString()));
-                }
+                Debug.LogError("Task failed: " + t.Exception);
+                return;
             }
-            else
+
+            DataSnapshot snapshot = t.Result;
+
+            foreach (DataSnapshot childSnapshot in snapshot.Children)
             {
-                Debug.LogError("Error getting data: " + t.Exception);
+                try
+                {
+                    var key = childSnapshot.Key;
+                    var usernameNode = childSnapshot.Child("Username");
+                    var battlesNode = childSnapshot.Child("Battles");
+
+                    if (usernameNode == null || battlesNode == null)
+                    {
+                        Debug.LogWarning($"One of the fields is null for key: {key}");
+                        continue;
+                    }
+
+                    var username = usernameNode.Value?.ToString();
+                    var battles = battlesNode.Value?.ToString();
+
+                    if (username == null || battles == null)
+                    {
+                        Debug.LogWarning($"Value was null for key: {key}, Username: {username}, Battles: {battles}");
+                        continue;
+                    }
+
+                    keyValues.Add((key, username, battles));
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError($"Exception for key: {childSnapshot.Key} => {ex}");
+                }
             }
         });
 

@@ -13,8 +13,8 @@ public class BattleManager : MonoBehaviour
 
     private void Awake()
     {
-        SpawnHero("/PlayerCharacters/Warrior");
-        SpawnEnemy("/EnemyCharacters/Dragon");
+        SpawnHero();
+        SpawnEnemy();
         NextRound();
         if (currentTurnTaker = enemy)
         {
@@ -74,23 +74,18 @@ public class BattleManager : MonoBehaviour
     }
 
 
-    private void SpawnHero(string filePath)
+    private void SpawnHero()
     {
         GameObject heroObj = GameObject.Find("HeroUnit");
         hero = heroObj.AddComponent<Hero>();
-        hero.Initialize(filePath);
-        SpriteRenderer spriteRenderer = heroObj.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = hero.GetSprite();
-        Debug.Log(hero.GetAttackPower());
+        hero.Initialize("Hero");
     }
 
-    private void SpawnEnemy(string filePath)
+    private void SpawnEnemy()
     {
         GameObject enemyObject = GameObject.Find("EnemyUnit");
         enemy = enemyObject.AddComponent<Enemy>();
-        enemy.Initialize(filePath);
-        SpriteRenderer spriteRenderer = enemyObject.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = enemy.GetSprite();
+        enemy.Initialize("Enemy");
     }
 
     public void PauseGame()
