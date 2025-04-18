@@ -10,7 +10,6 @@ public class DatabaseManager : MonoBehaviour
 {
     // Firebase reference
     private static DatabaseReference reference;
-    private static bool isFirebaseInitialized = false;
     private static readonly string uri = "https://csc384leaderboard-default-rtdb.europe-west1.firebasedatabase.app/";
 
 
@@ -28,7 +27,6 @@ public class DatabaseManager : MonoBehaviour
                 reference = FirebaseDatabase.DefaultInstance.RootReference;
 
                 // Set the initialization flag to true
-                isFirebaseInitialized = true;
 
                 Debug.Log("Firebase Initialized and Database URL set!");
             }
@@ -53,6 +51,8 @@ public class DatabaseManager : MonoBehaviour
                 DataSnapshot snapshot = t.Result;
                 foreach (DataSnapshot childSnapshot in snapshot.Children)
                 {
+
+                    Debug.Log($"{childSnapshot.Key}");
                     keyValues.Add((childSnapshot.Key, childSnapshot.Child("Username").Value.ToString(), childSnapshot.Child("Battles").Value.ToString()));
                 }
             }

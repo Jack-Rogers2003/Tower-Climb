@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PosionState : IUnitState
+public class PoisonState : IUnitState
 {
 
     private Unit unit;
@@ -8,7 +8,7 @@ public class PosionState : IUnitState
     private int timer = 3;
     private int damagePerTurn = 10;
 
-    public void PoisonState(Unit character)
+    public PoisonState(Unit character)
     {
         this.unit = character;
     }

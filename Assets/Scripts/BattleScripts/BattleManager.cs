@@ -81,7 +81,6 @@ public class BattleManager : MonoBehaviour
         hero.Initialize(filePath);
         SpriteRenderer spriteRenderer = heroObj.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = hero.GetSprite();
-        hero.GetAbilities(filePath);
         Debug.Log(hero.GetAttackPower());
     }
 
