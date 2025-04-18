@@ -7,9 +7,9 @@ using System.Linq;
 
 public class PopulateLeaderboard : MonoBehaviour
 {
-    public GameObject textPrefab;       // Assign the Text prefab here
-    public Transform contentParent;     // Assign Content here
-    public ScrollRect scrollRect;       // Assign the ScrollView here
+    public GameObject textPrefab;       
+    public Transform contentParent;     
+    public ScrollRect scrollRect;       
 
     public void AddLine(string message)
     {

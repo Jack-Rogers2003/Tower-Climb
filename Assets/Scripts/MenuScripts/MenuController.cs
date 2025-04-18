@@ -7,7 +7,7 @@ public class MenuController : MonoBehaviour
     // Start the game and load the GameScene
     public void StartGame()
     {
-        SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);  // Load the gameplay scene
+        SceneManager.LoadScene("ChooseAbilities", LoadSceneMode.Single);  // Load the gameplay scene
     }
 
     public void LoadOptions()

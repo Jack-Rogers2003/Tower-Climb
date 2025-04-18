@@ -12,7 +12,6 @@ public abstract class Unit : MonoBehaviour
     private int attackPower;
     private int defence;
     private int speed;
-    private Sprite unitSprite;
     private bool isAlive = true;
     private readonly string filePath = Path.Combine(Application.dataPath, "BattleAssets");
 
@@ -90,10 +89,5 @@ public abstract class Unit : MonoBehaviour
     public int GetSpeed()
     {
         return speed;
-    }
-
-    public Sprite GetSprite()
-    {
-        return unitSprite;
     }
 }

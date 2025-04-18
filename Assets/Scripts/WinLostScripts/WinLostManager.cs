@@ -33,7 +33,7 @@ public class WinLostManager : MonoBehaviour
 
     public void NextBattle()
     {
-        SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
+        SceneManager.LoadScene("ChooseAbilities", LoadSceneMode.Single);
     }
 
 
