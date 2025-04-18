@@ -15,6 +15,8 @@ public class PoisonAbility : AbilityData
         type = AbilityType.Debuff;
         abilityName = "Poison";
         description = "Poison the target for 3 turns, dealing 5 damage every turn";
+        power = 0;
+        maxUsage = 1;
     }
 
 
