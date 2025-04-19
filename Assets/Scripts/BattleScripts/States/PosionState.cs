@@ -6,7 +6,7 @@ public class PoisonState : IUnitState
     private Unit unit;
 
     private int timer = 3;
-    private int damagePerTurn = 10;
+    private int damagePerTurn = 5;
 
     public PoisonState(Unit character)
     {

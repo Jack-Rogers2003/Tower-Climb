@@ -22,6 +22,10 @@ public abstract class Unit : MonoBehaviour
 
     }
 
+    public void ExecuteState()
+    {
+        currentState.Execute();
+    }
     public void ChangeState(IUnitState newState)
     {
         currentState?.Exit();  // Exit the current state
@@ -87,5 +91,10 @@ public abstract class Unit : MonoBehaviour
     public int GetSpeed()
     {
         return speed;
+    }
+
+    public IUnitState GetCurrentState()
+    {
+        return currentState;
     }
 }

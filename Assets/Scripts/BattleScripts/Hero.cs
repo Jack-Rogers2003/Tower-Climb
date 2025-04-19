@@ -3,11 +3,16 @@ using UnityEngine;
 
 public class Hero: Unit
 {
-    public List<AbilityData> allAbilities;
+    private List<AbilityData> allAbilities;
         
-    void Start()
+    void Awake()
     {
         allAbilities = ChooseAbilityManager.GetChosenAbilites();
+    }
+
+    public List<AbilityData> GetAbilites()
+    {
+        return allAbilities;
     }
 
 }

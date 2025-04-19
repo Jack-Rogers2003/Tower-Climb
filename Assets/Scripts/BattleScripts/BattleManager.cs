@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
+using NUnit.Framework;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
 
 
 public class BattleManager : MonoBehaviour
@@ -16,6 +19,8 @@ public class BattleManager : MonoBehaviour
     public TMP_Text heroNameAndHPText;
     public TMP_Text currentTurnTakerText;
     public GameObject abilityPanel;
+    List<AbilityData> abilities;
+
 
     void Start()
     {
@@ -26,13 +31,14 @@ public class BattleManager : MonoBehaviour
         SpawnHero();
         SpawnEnemy();
         SetStartingUnit();
+        SetAbilities();
         HideAbilites();
         TakeAction();
     }
 
     private void TakeAction()
     {
-        Debug.Log("Here");
+        Debug.Log(enemy.GetCurrentState());
         AfterAction();
         if (currentTurnTaker == enemy)
         {
@@ -77,6 +83,7 @@ public class BattleManager : MonoBehaviour
     {
         hero.DamageUnit(10);
         currentTurnTaker = hero;
+        enemy.ExecuteState();
         TakeAction();
     }
 
@@ -92,6 +99,31 @@ public class BattleManager : MonoBehaviour
         attackButton.SetActive(false);
         abilitiesButton.SetActive(false);
         abilityPanel.SetActive(true);
+    }
+
+    private void SetAbilities()
+    {
+        abilities = hero.GetAbilites();
+        int currentAbility = 1;
+        foreach(AbilityData ability in abilities)
+        {
+            abilityPanel.transform.Find("Ability" + currentAbility).GetComponent<Button>().GetComponentInChildren<TextMeshProUGUI>().text = ability.abilityName;
+            Debug.Log(ability.description);
+            abilityPanel.transform.Find("Ability" + currentAbility).GetComponent<AbilityButtonHover>().SetHoverText(ability.description);
+
+            currentAbility++;
+        }
+    }
+
+    public void AbilityButtonPress()
+    {
+        string buttonName = EventSystem.current.currentSelectedGameObject.name;
+        int lastChar = buttonName[^1] - '1';
+        AbilityData selectedAbility = abilities[lastChar];
+        selectedAbility.UseAbility(enemy);
+        HideAbilites();
+        currentTurnTaker = enemy;
+        TakeAction();
     }
 
     void AfterAction()
