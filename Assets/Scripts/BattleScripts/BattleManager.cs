@@ -9,21 +9,30 @@ public class BattleManager : MonoBehaviour
 {
     private Hero hero;
     private Enemy enemy;
+    private GameObject attackButton;
+    private GameObject abilitiesButton;
     private Unit currentTurnTaker;
     public TMP_Text targetNameAndHPText;
     public TMP_Text heroNameAndHPText;
     public TMP_Text currentTurnTakerText;
+    public GameObject abilityPanel;
 
     void Start()
     {
+        attackButton = GameObject.Find("AttackButton");
+        abilitiesButton = GameObject.Find("AbilitiesButton");
+
+
         SpawnHero();
         SpawnEnemy();
         SetStartingUnit();
+        HideAbilites();
         TakeAction();
     }
 
     private void TakeAction()
     {
+        Debug.Log("Here");
         AfterAction();
         if (currentTurnTaker == enemy)
         {
@@ -47,14 +56,14 @@ public class BattleManager : MonoBehaviour
 
     private void DisablePlayerButtons()
     {
-        GameObject.Find("AttackButton").GetComponent<Button>().interactable = false;
-
+        attackButton.GetComponent<Button>().interactable = false;
+        abilitiesButton.GetComponent<Button>().interactable = false;
     }
 
     private void EnablePlayerButtons()
     {
-        GameObject.Find("AttackButton").GetComponent<Button>().interactable = true;
-
+        attackButton.GetComponent<Button>().interactable = true;
+        abilitiesButton.GetComponent<Button>().interactable = true;
     }
 
     private void AttackButton()
@@ -69,6 +78,20 @@ public class BattleManager : MonoBehaviour
         hero.DamageUnit(10);
         currentTurnTaker = hero;
         TakeAction();
+    }
+
+    public void HideAbilites()
+    {
+        attackButton.SetActive(true);
+        abilitiesButton.SetActive(true);
+        abilityPanel.SetActive(false);
+    }
+
+    public void ShowAbilities()
+    {
+        attackButton.SetActive(false);
+        abilitiesButton.SetActive(false);
+        abilityPanel.SetActive(true);
     }
 
     void AfterAction()

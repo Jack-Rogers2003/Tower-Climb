@@ -13,8 +13,6 @@ public abstract class Unit : MonoBehaviour
     private int defence;
     private int speed;
     private bool isAlive = true;
-    private readonly string filePath = Path.Combine(Application.dataPath, "BattleAssets");
-
     private IUnitState currentState;
 
 
