@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
+using UnityEngine.UI;
 
 
 public class BattleManager : MonoBehaviour
@@ -9,42 +11,69 @@ public class BattleManager : MonoBehaviour
     private Enemy enemy;
     private Unit currentTurnTaker;
     public TMP_Text targetNameAndHPText;
+    public TMP_Text heroNameAndHPText;
     public TMP_Text currentTurnTakerText;
 
-    private void Awake()
+    void Start()
     {
         SpawnHero();
         SpawnEnemy();
-        NextRound();
-        if (currentTurnTaker = enemy)
+        SetStartingUnit();
+        TakeAction();
+    }
+
+    private void TakeAction()
+    {
+        AfterAction();
+        if (currentTurnTaker == enemy)
         {
+            DisablePlayerButtons();
             currentTurnTakerText.text = "Current Turn: " + enemy.GetName();
-        } else
+            StartCoroutine(Wait());
+        }
+        else
         {
             currentTurnTakerText.text = "Current Turn: " + hero.GetName();
         }
     }
 
-    public void AttackButton()
+    private IEnumerator Wait()
     {
-        enemy.DamageUnit(10);
+        yield return new WaitForSeconds(3f);
+        EnemyAttack();
+        EnablePlayerButtons();
+
     }
 
-    void Update()
+    private void DisablePlayerButtons()
     {
-        Collider2D spriteCollider = GameObject.Find("EnemyUnit").GetComponent<BoxCollider2D>();
-        Vector2 mousePos = new(Input.mousePosition.x, Input.mousePosition.y);
-        Vector2 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+        GameObject.Find("AttackButton").GetComponent<Button>().interactable = false;
 
-        // Check if the mouse is over the collider
-        if (spriteCollider.OverlapPoint(worldMousePos))
-        {
-            targetNameAndHPText.text = "Target: " + enemy.GetName() + "  HP: " + enemy.GetCurrentHP() + "/" + enemy.GetMaxHP();
-        }
-        else
-        {
-            targetNameAndHPText.text = "";
-        }
+    }
+
+    private void EnablePlayerButtons()
+    {
+        GameObject.Find("AttackButton").GetComponent<Button>().interactable = true;
+
+    }
+
+    private void AttackButton()
+    {
+        enemy.DamageUnit(10);
+        currentTurnTaker = enemy;
+        TakeAction();
+    }
+
+    private void EnemyAttack()
+    {
+        hero.DamageUnit(10);
+        currentTurnTaker = hero;
+        TakeAction();
+    }
+
+    void AfterAction()
+    {
+        heroNameAndHPText.text = hero.GetName() + "\nHP: " + hero.GetCurrentHP() + "/" + hero.GetMaxHP();
 
         if (!enemy.IsAlive())
         {
@@ -61,7 +90,24 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    private void NextRound()
+    private void Update()
+    {
+        Collider2D spriteCollider = GameObject.Find("EnemyUnit").GetComponent<BoxCollider2D>();
+        Vector2 mousePos = new(Input.mousePosition.x, Input.mousePosition.y);
+        Vector2 worldMousePos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        // Check if the mouse is over the collider
+        if (spriteCollider.OverlapPoint(worldMousePos))
+        {
+            targetNameAndHPText.text = "Target: " + enemy.GetName() + "  HP: " + enemy.GetCurrentHP() + "/" + enemy.GetMaxHP();
+        }
+        else
+        {
+            targetNameAndHPText.text = "";
+        }
+    }
+
+    private void SetStartingUnit()
     {
         if (enemy.GetSpeed() > hero.GetSpeed())
         {

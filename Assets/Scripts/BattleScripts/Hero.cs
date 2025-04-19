@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Hero: Unit
 {
@@ -8,8 +7,6 @@ public class Hero: Unit
     void Start()
     {
         allAbilities = ChooseAbilityManager.GetChosenAbilites();
-        Debug.Log(allAbilities.Count);
-
     }
 
 }
