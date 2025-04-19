@@ -49,6 +49,15 @@ public class BattleManager : MonoBehaviour
         else
         {
             currentTurnTakerText.text = "Current Turn: " + hero.GetName();
+            hero.ExecuteState();
+            Debug.Log(hero.GetCurrentState());
+            if (hero.GetCurrentState().GetType() == typeof(BeserkState))
+            {
+                Debug.Log("I am here");
+                DisablePlayerButtons();
+                currentTurnTaker = enemy;
+                TakeAction();
+            }
         }
     }
 
@@ -68,8 +77,11 @@ public class BattleManager : MonoBehaviour
 
     private void EnablePlayerButtons()
     {
-        attackButton.GetComponent<Button>().interactable = true;
-        abilitiesButton.GetComponent<Button>().interactable = true;
+        if (hero.GetCurrentState().GetType() != typeof(BeserkState))
+        {
+            attackButton.GetComponent<Button>().interactable = true;
+            abilitiesButton.GetComponent<Button>().interactable = true;
+        }
     }
 
     private void AttackButton()
@@ -120,7 +132,21 @@ public class BattleManager : MonoBehaviour
         string buttonName = EventSystem.current.currentSelectedGameObject.name;
         int lastChar = buttonName[^1] - '1';
         AbilityData selectedAbility = abilities[lastChar];
-        selectedAbility.UseAbility(enemy);
+        if (selectedAbility.type == AbilityType.self)
+        {
+            if (selectedAbility is BeserkAbility beserkAbility)
+            {
+                beserkAbility.Beserk(hero, enemy);  
+            } 
+            else
+            {
+                selectedAbility.UseAbility(hero);
+            }
+        }
+        else
+        {
+            selectedAbility.UseAbility(enemy);
+        }
         HideAbilites();
         currentTurnTaker = enemy;
         TakeAction();

@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-public enum AbilityType { Attack, Heal, Buff, Debuff, Utility }
+public enum AbilityType { self, enemy }
 
 [CreateAssetMenu(fileName = "NewAbility", menuName = "Abilities/Ability")]
 public class AbilityData : ScriptableObject
@@ -11,10 +11,9 @@ public class AbilityData : ScriptableObject
 
     public AbilityType type;
     public int power; 
-    public int maxUsage;
-
     public virtual void UseAbility(Unit target)
     {
+
     }
 
 }

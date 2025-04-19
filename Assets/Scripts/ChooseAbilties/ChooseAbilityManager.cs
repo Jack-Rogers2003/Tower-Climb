@@ -21,10 +21,6 @@ public class ChooseAbilityManager : MonoBehaviour
         foreach (AbilityData ability in allAbilities)
         {
             AddToggle(ability);
-            AddToggle(ability);
-            AddToggle(ability);
-            AddToggle(ability);
-            AddToggle(ability);
         }
     }
 
@@ -33,7 +29,7 @@ public class ChooseAbilityManager : MonoBehaviour
         GameObject toggleObj = Instantiate(togglePrefab, contentArea);
         Toggle toggle = toggleObj.GetComponent<Toggle>();
         Text label = toggleObj.GetComponentInChildren<Text>(); // assumes only one Text
-        label.text = "Name: " + abilityData.abilityName + "\nDescription: " + abilityData.description + "\nPower: " + abilityData.power + "\nMax Usage: " + abilityData.maxUsage;
+        label.text = "Name: " + abilityData.abilityName + "\nDescription: " + abilityData.description + "\nPower: " + abilityData.power;
         toggle.isOn = false;
         UnityAction<bool>  toggleListener = (val) => AddAbility(toggle, abilityData);
         toggle.onValueChanged.AddListener(toggleListener);

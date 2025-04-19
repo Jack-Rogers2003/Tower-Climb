@@ -5,6 +5,10 @@ public class DefaultState : IUnitState
 
     private Unit unit;
 
+    public DefaultState()
+    {
+    }
+
     public DefaultState(Unit unit)
     {
         this.unit = unit;

@@ -10,7 +10,7 @@ public class PoisonState : IUnitState
 
     public PoisonState(Unit character)
     {
-        this.unit = character;
+        unit = character;
     }
 
 
@@ -27,9 +27,11 @@ public class PoisonState : IUnitState
         }
         else
         {
-
+            unit.ChangeState(new DefaultState(unit));
         }
     }
 
-    public void Exit() { Debug.Log("Exiting Idle State"); }
+    public void Exit() 
+    { 
+    }
 }

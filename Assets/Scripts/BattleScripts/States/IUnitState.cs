@@ -1,5 +1,3 @@
-using UnityEngine.TextCore.Text;
-
 public interface IUnitState
 {
     void Enter();

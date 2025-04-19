@@ -59,6 +59,7 @@ public abstract class Unit : MonoBehaviour
         attackPower = int.Parse(reader.ReadLine());
         defence = int.Parse(reader.ReadLine());
         speed = int.Parse(reader.ReadLine());
+        currentState = new DefaultState(this);
         reader.Close();
 
     }
@@ -96,5 +97,15 @@ public abstract class Unit : MonoBehaviour
     public IUnitState GetCurrentState()
     {
         return currentState;
+    }
+
+    public void DescreaseDefencebyPercentage(double percentage)
+    {
+        defence = (int)(defence * percentage);
+    }
+
+    public void RevertDefence(double percentage)
+    {
+        defence = (int)(defence / percentage);
     }
 }
