@@ -51,7 +51,7 @@ public class BattleManager : MonoBehaviour
             currentTurnTakerText.text = "Current Turn: " + hero.GetName();
             hero.ExecuteState();
             Debug.Log(hero.GetCurrentState());
-            if (hero.GetCurrentState().GetType() == typeof(BeserkState))
+            if (hero.GetCurrentState().GetType() == typeof(BeserkState) || hero.GetCurrentState().GetType() == typeof(FocusedState))
             {
                 Debug.Log("I am here");
                 DisablePlayerButtons();
@@ -77,7 +77,7 @@ public class BattleManager : MonoBehaviour
 
     private void EnablePlayerButtons()
     {
-        if (hero.GetCurrentState().GetType() != typeof(BeserkState))
+        if (hero.GetCurrentState().GetType() != typeof(BeserkState) && hero.GetCurrentState().GetType() != typeof(FocusedState))
         {
             attackButton.GetComponent<Button>().interactable = true;
             abilitiesButton.GetComponent<Button>().interactable = true;
@@ -92,7 +92,7 @@ public class BattleManager : MonoBehaviour
     }
 
     private void EnemyAttack()
-    {
+    {           
         hero.DamageUnit(10);
         currentTurnTaker = hero;
         enemy.ExecuteState();
@@ -137,7 +137,12 @@ public class BattleManager : MonoBehaviour
             if (selectedAbility is BeserkAbility beserkAbility)
             {
                 beserkAbility.Beserk(hero, enemy);  
-            } 
+            }
+            else if (selectedAbility is FocusedAttack focusedAttack)
+            {
+                focusedAttack.Focused(hero, enemy);
+
+            }
             else
             {
                 selectedAbility.UseAbility(hero);

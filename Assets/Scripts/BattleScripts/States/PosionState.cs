@@ -3,10 +3,10 @@ using UnityEngine;
 public class PoisonState : IUnitState
 {
 
-    private Unit unit;
+    private readonly Unit unit;
 
     private int timer;
-    private int damagePerTurn;
+    private readonly int damagePerTurn;
 
     public PoisonState(Unit character, int timer, int damage)
     {

@@ -3,7 +3,7 @@ using UnityEngine.TextCore.Text;
 public class DefaultState : IUnitState
 {
 
-    private Unit unit;
+    private readonly Unit unit;
 
     public DefaultState()
     {
