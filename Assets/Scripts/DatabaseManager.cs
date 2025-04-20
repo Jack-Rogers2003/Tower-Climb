@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
@@ -98,7 +99,10 @@ public class DatabaseManager : MonoBehaviour
                 DataSnapshot snapshot = task.Result;
                 int id = (int)snapshot.ChildrenCount + 1;
                 reference.Child((id).ToString()).Child("Username").SetValueAsync(username);
+                reference.Child((id).ToString()).Child("Battles").SetValueAsync("0");
+
                 PlayerPrefs.SetString("id", id.ToString());
+                PlayerPrefs.Save();
             }
             else
             {
@@ -107,21 +111,41 @@ public class DatabaseManager : MonoBehaviour
         });
     }
 
-    public static void UpdateRank()
+    public async static Task<bool> UpdateRank()
     {
         string winCount = PlayerPrefs.GetString("BattleCount", "0");
         string id = PlayerPrefs.GetString("id", "0");
+        bool flag = false;
 
-        reference.GetValueAsync().ContinueWithOnMainThread(task =>
+        var tcs = new TaskCompletionSource<bool>();
+
+
+        await reference.GetValueAsync().ContinueWithOnMainThread(async task =>
         {
             if (task.IsCompleted)
             {
                 DataSnapshot snapshot = task.Result;
+
                 string highestWinCount = snapshot.Child(id).Child("Battles").Value?.ToString() ?? "0";
 
                 if (int.Parse(highestWinCount) < int.Parse(winCount))
                 {
-                    reference.Child(id).Child("Battles").SetValueAsync(winCount);
+                    List<(string, string, string)> ranksPre = await ReadData();
+                    ranksPre = ranksPre.OrderByDescending(x => int.Parse(x.Item3)).ToList();
+
+                    await reference.Child(id).Child("Battles").SetValueAsync(winCount);
+
+
+                    //Key - Username - Battle
+                    List<(string, string, string)> ranksPost = await ReadData();
+                    ranksPost = ranksPost.OrderByDescending(x => int.Parse(x.Item3)).ToList();
+
+
+                    if (ranksPost.FindIndex(pair => pair.Item1 == PlayerPrefs.GetString("id")) < ranksPre.FindIndex(pair => pair.Item1 == PlayerPrefs.GetString("id")))
+                    {
+                        flag = true;
+                        tcs.SetResult(flag);
+                    }
                 }
             }
             else
@@ -129,6 +153,8 @@ public class DatabaseManager : MonoBehaviour
                 Debug.LogError("Error adding data: " + task.Exception);
             }
         });
+
+        return await tcs.Task;
     }
 
     public static void UpdateUsername(string username)

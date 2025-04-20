@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: FocusedAttack
   m_EditorClassIdentifier: 
   abilityName: Foucsed Attack
-  description: 
+  description: Wait a turn and then deal a devastating strike, but with a 50% chance
+    of failinh
   type: 0
-  power: 25
+  power: 40
   timer: 1

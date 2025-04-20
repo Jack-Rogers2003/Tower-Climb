@@ -222,6 +222,8 @@ public class BattleManager : MonoBehaviour
 
     public void PauseGame()
     {
+
+
         SceneManager.LoadScene("PauseMenu", LoadSceneMode.Single);
     }
 }

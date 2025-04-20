@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System.Linq;
 
 
 public class WinLostManager : MonoBehaviour
@@ -11,8 +13,10 @@ public class WinLostManager : MonoBehaviour
     public Button nextRoundButton;
 
 
-    private void Awake()
+    private async void Awake()
     {
+        battleCount.text = "Final Battle Count: " + PlayerPrefs.GetString("BattleCount", "0");
+
         if (PlayerPrefs.GetInt("HasWon", 0) == 0)
         {
             header.text = "You Lost!";
@@ -26,9 +30,13 @@ public class WinLostManager : MonoBehaviour
             nextRoundButton.interactable = true;
             nextRoundButton.gameObject.SetActive(true);
 
+            bool flag = await DatabaseManager.UpdateRank();
+
+            if (flag)
+            {
+                header.text += "You Ranked up!";
+            }
         }
-        battleCount.text = "Final Battle Count: " + PlayerPrefs.GetString("BattleCount", "0");
-        DatabaseManager.UpdateRank();
     }
 
     public void NextBattle()

@@ -25,10 +25,18 @@ public class FocusedState : IUnitState
 
     public void Execute()
     {
-        Debug.Log(timer);
+
         if (timer == 0)
         {
-            target.DamageUnit(damageAfterFocus);
+            int randomNumber = Random.Range(1, 11);
+            if (randomNumber >= 1 && randomNumber <= 5)
+            {
+                target.DamageUnit(damageAfterFocus);
+            }
+            else
+            {
+                Debug.Log("Broken!");
+            }
             unit.ChangeState(new DefaultState(unit));
         }
         else
