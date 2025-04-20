@@ -5,12 +5,14 @@ public class PoisonState : IUnitState
 
     private Unit unit;
 
-    private int timer = 3;
-    private int damagePerTurn = 5;
+    private int timer;
+    private int damagePerTurn;
 
-    public PoisonState(Unit character)
+    public PoisonState(Unit character, int timer, int damage)
     {
         unit = character;
+        this.timer = timer;
+        damagePerTurn = damage;
     }
 
 

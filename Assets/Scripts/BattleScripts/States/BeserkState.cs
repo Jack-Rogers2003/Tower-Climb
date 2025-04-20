@@ -1,19 +1,19 @@
 using UnityEngine;
-using UnityEngine.TextCore.Text;
-using static UnityEngine.GraphicsBuffer;
 
 public class BeserkState : IUnitState
 {
-    private int turns = 3;
+    private int turns;
     private Unit target;
     private Unit beserker;
+    private int damage;
 
 
-    public BeserkState(Unit unit, Unit currentTarget)
+    public BeserkState(Unit unit, Unit currentTarget, int timer, int damage)
     {
         beserker = unit;
         target = currentTarget;
-        target.DescreaseDefencebyPercentage(0.75);
+        turns = timer;
+        this.damage = damage;
         Execute();
     }
 
@@ -26,13 +26,11 @@ public class BeserkState : IUnitState
         Debug.Log(turns);
         if (turns != 0)
         {
-            target.DamageUnit(15);
+            target.DamageUnit(damage);
             turns--;
         }
         else
         {
-            Debug.Log("Here" + turns);
-            target.RevertDefence(0.75);
             beserker.ChangeState(new DefaultState(beserker));
         }
     }

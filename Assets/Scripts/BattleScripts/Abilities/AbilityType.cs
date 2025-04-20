@@ -1,9 +1,7 @@
-using UnityEditor;
 using UnityEngine;
 
 public enum AbilityType { self, enemy }
 
-[CreateAssetMenu(fileName = "NewAbility", menuName = "Abilities/Ability")]
 public class AbilityData : ScriptableObject
 {
     public string abilityName;

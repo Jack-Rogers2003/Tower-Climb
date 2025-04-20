@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6f84bb1e3559e44dbe43290b09a8b20, type: 3}
-  m_Name: PoisonAbility
+  m_Name: GreaterPoison
   m_EditorClassIdentifier: 
-  abilityName: Poison
-  description: Poison the target for 3 turns, dealing 5 damage every turn
+  abilityName: Poisona
+  description: 2 damage per turn for 10 turns
   type: 1
-  power: 5
-  timer: 3
+  power: 2
+  timer: 5

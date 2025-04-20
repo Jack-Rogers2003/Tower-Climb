@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: BeserkAbility
   m_EditorClassIdentifier: 
   abilityName: Beserk
-  description: Attack without stopping for 3 turns, damage up 30%, but defence down
-    25%
-  type: 1
-  power: 0
+  description: Attack without stopping for 3 turns with 15 damage per turn
+  type: 0
+  power: 12
+  timer: 3
