@@ -1,15 +1,21 @@
-using System.Collections;
+using Firebase.Auth;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class OptionsHandler : MonoBehaviour
 {
     public TMP_InputField userInput;
+    public Button logOutButton;
 
     private void Awake()
     {
+        if (!DatabaseManager.IsLoggedIn())
+        {
+            logOutButton.interactable = false;
+        }
         userInput.text = PlayerPrefs.GetString("UserName");
     }
 
@@ -38,6 +44,12 @@ public class OptionsHandler : MonoBehaviour
             PlayerPrefs.Save();
             DatabaseManager.UpdateUsername(newName);
         }
+    }
+
+    public void LogOut()
+    {
+        DatabaseManager.LogOut();
+        SceneManager.LoadScene("StartingScreen", LoadSceneMode.Single);
     }
 
 }

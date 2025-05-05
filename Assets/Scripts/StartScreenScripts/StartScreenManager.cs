@@ -1,10 +1,19 @@
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StartScreenManager : MonoBehaviour
 {
-    public TMP_InputField userInput;
+    public TextMeshProUGUI header;
+    public TMP_InputField loginEmail;
+    public TMP_InputField loginPassword;
+    public TMP_InputField signupEmail;
+    public TMP_InputField signupPassword;
+    public TMP_InputField signupPassword2;
+    public TMP_InputField username;
+
+
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -13,8 +22,7 @@ public class StartScreenManager : MonoBehaviour
         DatabaseManager.Initialize();
         SceneManager.LoadScene("AudioManagerService", LoadSceneMode.Additive);
 
-        string usernname = PlayerPrefs.GetString("UserName", string.Empty);
-        if(usernname != string.Empty)
+        if (DatabaseManager.IsLoggedIn())
         {
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
@@ -24,22 +32,70 @@ public class StartScreenManager : MonoBehaviour
     public void ExitScreen()
     {
         Application.Quit();  // This will close the game
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-        #endif
+#endif
         // Stop the game in the editor
     }
 
-   public void EnterButton()
+    public void Login()
     {
-        string enteredText = userInput.text;
-
-        if (enteredText != string.Empty)
+        if (string.IsNullOrWhiteSpace(loginEmail.text))
         {
-            DatabaseManager.CreateNewUser(enteredText);
-            PlayerPrefs.SetString("UserName", enteredText);
-            PlayerPrefs.Save();
+            header.text = "Please Enter Your Email";
+        }
+        else if (string.IsNullOrWhiteSpace(loginPassword.text))
+        {
+            header.text = "Please Enter Your Password";
+        }
+        else
+        {
+            DatabaseManager.Login(loginEmail.text, loginPassword.text);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
+    }
+
+    private bool IsEmailValid(string email)
+    {
+        return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+    }
+
+    public void SignUp()
+    {
+        if (string.IsNullOrEmpty(signupEmail.text))
+        {
+            header.text = "Please Enter Your Email";
+
+        } else if (!IsEmailValid(signupEmail.text))
+        {
+            header.text = "Please Enter a Valid Email";
+
+        }
+        else if (string.IsNullOrEmpty(username.text))
+        {
+            header.text = "Please Enter Your Username";
+
+        }
+        else if (string.IsNullOrEmpty(signupPassword.text))
+        {
+            header.text = "Please Enter Your Password";
+        }
+        else if (string.IsNullOrEmpty(signupPassword2.text))
+        {
+            header.text = "Please Re-Enter Your Password";
+        }
+        else if (signupPassword.text != signupPassword2.text)
+        {
+            header.text = "Your Passwords are not the same";
+        }
+        else if (signupPassword.text.Length < 6)
+        {
+            header.text = "Password must be of length 6 or greater";
+        }
+        {
+            DatabaseManager.CreateNewUser(signupEmail.text, signupPassword.text, username.text);
+            SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
+        }
+
     }
 }

@@ -2,9 +2,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
-using System.Collections.Generic;
-using System.Linq;
-
 
 public class WinLostManager : MonoBehaviour
 {
@@ -48,6 +45,7 @@ public class WinLostManager : MonoBehaviour
     public void ExitBackToMenu()
     {
         PlayerPrefs.SetString("BattleCount", "0");
+        PlayerPrefs.Save(); 
 
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);  // Load the gameplay scene
     }

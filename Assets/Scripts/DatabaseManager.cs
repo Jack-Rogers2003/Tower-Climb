@@ -6,17 +6,20 @@ using Firebase;
 using Firebase.Database;
 using Firebase.Extensions;
 using UnityEngine;
+using Firebase.Auth;
+
 
 public class DatabaseManager : MonoBehaviour
 {
     // Firebase reference
     private static DatabaseReference reference;
     private static readonly string uri = "https://csc384leaderboard-default-rtdb.europe-west1.firebasedatabase.app/";
-
+    private static FirebaseAuth auth;
 
     // Singleton instance to access the FirebaseManager from anywhere
     public static void Initialize()
     {
+        auth = FirebaseAuth.DefaultInstance;
         // Check and resolve Firebase dependencies
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWithOnMainThread(task =>
         {
@@ -37,6 +40,23 @@ public class DatabaseManager : MonoBehaviour
                 Debug.LogError($"Could not resolve all Firebase dependencies: {dependencyStatus}");
             }
         });
+    }
+
+    public static void LogOut()
+    {
+        auth.SignOut();
+    }
+
+    public static bool IsLoggedIn()
+    {
+        FirebaseUser user = auth.CurrentUser;
+        if (user != null)
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
 
@@ -90,18 +110,66 @@ public class DatabaseManager : MonoBehaviour
         return keyValues;
     }
 
+    public static void Login(string email, string password)
+    {
+        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+            if (task.IsCompleted)
+            {
+                reference.GetValueAsync().ContinueWithOnMainThread(task =>
+                {
+                    if (task.IsCompleted)
+                    {
+                        DataSnapshot snapshot = task.Result;
+                        foreach (DataSnapshot childSnapshot in snapshot.Children)
+                        {
+                            if (childSnapshot.Child("email").Value == null)
+                            {
+                                continue;
+                            }
+                            if (childSnapshot.Child("email").Value.ToString() == email)
+                            {
+                                PlayerPrefs.SetString("id", childSnapshot.Key.ToString());
+                                PlayerPrefs.SetString("UserName", childSnapshot.Child("Username").Value.ToString());
+                                PlayerPrefs.Save(); 
+                                return;
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public static void CreateNewUser(string email, string password, string username)
+    {
+        Debug.Log("Creating");
+        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        {
+            if (!task.IsCompleted && task.IsFaulted)
+                Debug.LogError("Error: " + task.Exception);
+            else
+            {
+                CreateNewUser(username);
+            }
+        });
+       }
+
     public static void CreateNewUser(string username)
     {
         reference.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
+                FirebaseUser user = auth.CurrentUser;
                 DataSnapshot snapshot = task.Result;
                 int id = (int)snapshot.ChildrenCount + 1;
+                reference.Child((id).ToString()).Child("id").SetValueAsync(user.UserId);
                 reference.Child((id).ToString()).Child("Username").SetValueAsync(username);
                 reference.Child((id).ToString()).Child("Battles").SetValueAsync("0");
 
                 PlayerPrefs.SetString("id", id.ToString());
+                PlayerPrefs.SetString("UserName", username.ToString());
+
                 PlayerPrefs.Save();
             }
             else
