@@ -5051,7 +5051,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1360605578}
         m_TargetAssemblyTypeName: StartScreenManager, Assembly-CSharp
-        m_MethodName: EnterButton
+        m_MethodName: GuestButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

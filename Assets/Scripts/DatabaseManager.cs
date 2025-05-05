@@ -49,11 +49,20 @@ public class DatabaseManager : MonoBehaviour
 
     public static bool IsLoggedIn()
     {
-        FirebaseUser user = auth.CurrentUser;
-        if (user != null)
+        try
         {
-            return true;
-        } else
+            FirebaseUser user = auth.CurrentUser;
+            if (user != null)
+            {
+                Debug.Log("email:" + user.Email);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch 
         {
             return false;
         }

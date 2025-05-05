@@ -9,12 +9,14 @@ public class OptionsHandler : MonoBehaviour
 {
     public TMP_InputField userInput;
     public Button logOutButton;
+    public Button changeNameButton;
 
     private void Awake()
     {
         if (!DatabaseManager.IsLoggedIn())
         {
             logOutButton.interactable = false;
+            changeNameButton.interactable = false;
         }
         userInput.text = PlayerPrefs.GetString("UserName");
     }

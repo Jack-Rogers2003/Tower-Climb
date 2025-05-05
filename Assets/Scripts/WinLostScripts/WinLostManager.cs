@@ -27,11 +27,14 @@ public class WinLostManager : MonoBehaviour
             nextRoundButton.interactable = true;
             nextRoundButton.gameObject.SetActive(true);
 
-            bool flag = await DatabaseManager.UpdateRank();
-
-            if (flag)
+            if (DatabaseManager.IsLoggedIn())
             {
-                header.text += "You Ranked up!";
+                bool flag = await DatabaseManager.UpdateRank();
+
+                if (flag)
+                {
+                    header.text += "You Ranked up!";
+                }
             }
         }
     }

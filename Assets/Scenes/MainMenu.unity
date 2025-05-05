@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34688aade0964f549ba1fe512768eb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaderboardButton: {fileID: 0}
 --- !u!4 &2186786
 Transform:
   m_ObjectHideFlags: 0
@@ -176,6 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34688aade0964f549ba1fe512768eb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaderboardButton: {fileID: 0}
 --- !u!1 &35774318
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,6 +1066,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34688aade0964f549ba1fe512768eb35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  leaderboardButton: {fileID: 991305920}
 --- !u!1 &1388594830
 GameObject:
   m_ObjectHideFlags: 0

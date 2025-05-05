@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class PauseMenuManager : MonoBehaviour
 {
     public TMP_Text nextRank;
+    public TextMeshProUGUI header;
+
 
     private void Awake()
     {
@@ -26,23 +28,30 @@ public class PauseMenuManager : MonoBehaviour
 
     public async void SetNextRank()
     {
-        List<(string, string)> ranks = await DatabaseManager.GetBattles();
-        ranks = ranks.OrderByDescending(x => int.Parse(x.Item2)).ToList();
-        string id = PlayerPrefs.GetString("id");
-        foreach (var pair in ranks)
+        if (DatabaseManager.IsLoggedIn())
         {
-            int index = ranks.IndexOf(pair);
-            if (pair.Item1 == id)
+            List<(string, string)> ranks = await DatabaseManager.GetBattles();
+            ranks = ranks.OrderByDescending(x => int.Parse(x.Item2)).ToList();
+            string id = PlayerPrefs.GetString("id");
+            foreach (var pair in ranks)
             {
-                if (index == 0)
+                int index = ranks.IndexOf(pair);
+                if (pair.Item1 == id)
                 {
-                    nextRank.text = "You are the highest rank!";
-                } else
-                {
-                    var higherPair = ranks[index - 1];
-                    nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("CurrentBattleCount", 0) + 1);
+                    if (index == 0)
+                    {
+                        nextRank.text = "You are the highest rank!";
+                    }
+                    else
+                    {
+                        var higherPair = ranks[index - 1];
+                        nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("CurrentBattleCount", 0));
+                    }
                 }
             }
+        } else
+        {
+            header.text = "";
         }
     }
 }

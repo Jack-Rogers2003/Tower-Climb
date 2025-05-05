@@ -31,7 +31,7 @@ public class ChooseAbilityManager : MonoBehaviour
         Text label = toggleObj.GetComponentInChildren<Text>(); // assumes only one Text
         label.text = "Name: " + abilityData.abilityName + "\nDescription: " + abilityData.description + "\nPower: " + abilityData.power;
         toggle.isOn = false;
-        UnityAction<bool> toggleListener = (val) => AddAbility(toggle, abilityData);
+        void toggleListener(bool val) => AddAbility(toggle, abilityData);
         toggle.onValueChanged.AddListener(toggleListener);
         toggles.Add((toggle, toggleListener));
     }

@@ -96,6 +96,13 @@ public class StartScreenManager : MonoBehaviour
             DatabaseManager.CreateNewUser(signupEmail.text, signupPassword.text, username.text);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
+    }
 
+    public void GuestButtonClicked()
+    {
+        PlayerPrefs.SetString("id", "");
+        PlayerPrefs.SetString("UserName", "");
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

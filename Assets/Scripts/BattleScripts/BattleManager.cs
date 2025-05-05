@@ -3,7 +3,6 @@ using UnityEngine.SceneManagement;
 using TMPro;
 using System.Collections;
 using UnityEngine.UI;
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
 
@@ -63,7 +62,7 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator Wait()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(0f);
         EnemyAttack();
         EnablePlayerButtons();
 

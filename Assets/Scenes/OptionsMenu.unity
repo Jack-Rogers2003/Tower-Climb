@@ -1216,6 +1216,10 @@ PrefabInstance:
       propertyPath: logOutButton
       value: 
       objectReference: {fileID: 637242201}
+    - target: {fileID: 6075388238459381267, guid: 3d7e1c5c7288ea940ba0bb9fe765e19b, type: 3}
+      propertyPath: changeNameButton
+      value: 
+      objectReference: {fileID: 1515847115}
     - target: {fileID: 8937040728234089982, guid: 3d7e1c5c7288ea940ba0bb9fe765e19b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 866

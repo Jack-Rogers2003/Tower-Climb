@@ -1,10 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    // Start the game and load the GameScene
+
+    public Button leaderboardButton;
+
+    public void Start()
+    {
+        if (!DatabaseManager.IsLoggedIn())
+        {
+            leaderboardButton.interactable = false;
+        }
+       
+    }
+
     public void StartGame()
     {
         SceneManager.LoadScene("ChooseAbilities", LoadSceneMode.Single);  // Load the gameplay scene
