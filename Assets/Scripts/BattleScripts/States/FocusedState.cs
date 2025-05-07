@@ -48,4 +48,11 @@ public class FocusedState : IUnitState
     public void Exit()
     {
     }
+
+        
+    override
+    public string ToString()
+    {
+        return "Focused";
+    }
 }

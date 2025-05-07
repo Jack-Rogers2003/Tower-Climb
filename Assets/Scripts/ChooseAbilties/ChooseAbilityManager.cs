@@ -22,6 +22,7 @@ public class ChooseAbilityManager : MonoBehaviour
         {
             AddToggle(ability);
         }
+        chosenAbilities.Clear();
     }
 
     void AddToggle(AbilityData abilityData)
@@ -62,6 +63,8 @@ public class ChooseAbilityManager : MonoBehaviour
 
     public void StartBattleButton()
     {
+        PlayerPrefs.SetString("BattleCount", "0");
+
         SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
 
     }

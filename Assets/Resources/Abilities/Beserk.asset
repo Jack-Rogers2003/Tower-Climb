@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7dc2d0edebc54614a93c06d9315b857c, type: 3}
-  m_Name: HealAbility
+  m_Script: {fileID: 11500000, guid: 47e57def851317c49afee45b4abfdba3, type: 3}
+  m_Name: Beserk
   m_EditorClassIdentifier: 
-  abilityName: Heal
-  description: Heal 5 HP
+  abilityName: Beserk
+  description: Attack without stopping for 3 turns with 15 damage per turn
   type: 0
-  power: 5
+  power: 12
+  timer: 3

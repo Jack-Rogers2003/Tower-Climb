@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -7,6 +8,9 @@ public class MenuController : MonoBehaviour
 {
 
     public Button leaderboardButton;
+    public Button loadGameButton;
+    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+
 
     public void Start()
     {
@@ -14,7 +18,10 @@ public class MenuController : MonoBehaviour
         {
             leaderboardButton.interactable = false;
         }
-       
+        if (!File.Exists(saveFilePath))
+        {
+            loadGameButton.interactable = false;
+        }
     }
 
     public void StartGame()
@@ -48,5 +55,12 @@ public class MenuController : MonoBehaviour
     public void ActivateEventSystem()
     {
         EventSystem.current.enabled = true;
+    }
+
+    public void LoadGame()
+    {
+        PlayerPrefs.SetInt("toLoad", 1);
+        SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
+
     }
 }

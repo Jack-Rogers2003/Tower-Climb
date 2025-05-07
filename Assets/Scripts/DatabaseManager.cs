@@ -42,6 +42,11 @@ public class DatabaseManager : MonoBehaviour
         });
     }
 
+    public static string GetCurrentUserID()
+    {
+        return auth.CurrentUser.UserId;
+    }
+
     public static void LogOut()
     {
         auth.SignOut();

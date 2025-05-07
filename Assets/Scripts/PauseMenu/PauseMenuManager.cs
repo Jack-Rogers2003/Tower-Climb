@@ -9,7 +9,6 @@ public class PauseMenuManager : MonoBehaviour
     public TMP_Text nextRank;
     public TextMeshProUGUI header;
 
-
     private void Awake()
     {
         SetNextRank();

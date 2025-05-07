@@ -47,6 +47,11 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+    public void SetName(string name)
+    {
+        unitName = name;
+    }
+
     public void Initialize(string unit)
     {
         Debug.Log(unit);
@@ -107,5 +112,20 @@ public abstract class Unit : MonoBehaviour
     public void RevertDefence(double percentage)
     {
         defence = (int)(defence / percentage);
+    }
+
+    public void SetMaxHP(int hp)
+    {
+        maxHealth = hp;
+    }
+
+    public void SetCurrentHP(int hp)
+    {
+        currentHealth = hp;
+    }
+
+    public void SetCurrentState(IUnitState state)
+    {
+        currentState = state;
     }
 }

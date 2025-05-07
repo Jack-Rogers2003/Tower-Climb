@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using System.IO;
 
 public class WinLostManager : MonoBehaviour
 {
     public TMP_Text battleCount;
     public TMP_Text header;
     public Button nextRoundButton;
+    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
 
 
     private async void Awake()
@@ -48,7 +50,13 @@ public class WinLostManager : MonoBehaviour
     public void ExitBackToMenu()
     {
         PlayerPrefs.SetString("BattleCount", "0");
-        PlayerPrefs.Save(); 
+        PlayerPrefs.SetInt("toLoad", 0);
+
+        PlayerPrefs.Save();
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath);
+        }
 
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);  // Load the gameplay scene
     }

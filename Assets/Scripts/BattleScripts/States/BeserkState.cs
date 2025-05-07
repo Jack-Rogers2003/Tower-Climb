@@ -3,9 +3,9 @@ using UnityEngine;
 public class BeserkState : IUnitState
 {
     private int turns;
-    private Unit target;
-    private Unit beserker;
-    private int damage;
+    private readonly Unit target;
+    private readonly Unit beserker;
+    private readonly int damage;
 
 
     public BeserkState(Unit unit, Unit currentTarget, int timer, int damage)
@@ -37,5 +37,10 @@ public class BeserkState : IUnitState
 
     public void Exit()
     {
+    }
+
+    public string ToString()
+    {
+        return "Beserk";
     }
 }

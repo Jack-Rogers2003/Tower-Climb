@@ -2,7 +2,6 @@ using UnityEngine.TextCore.Text;
 
 public class DefaultState : IUnitState
 {
-
     private readonly Unit unit;
 
     public DefaultState()
@@ -24,5 +23,11 @@ public class DefaultState : IUnitState
 
     public void Exit()
     {
+    }
+
+    override
+    public string ToString()
+    {
+        return "Default";
     }
 }

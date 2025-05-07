@@ -5,6 +5,8 @@ using System.Collections;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
+using System.IO;
+using System;
 
 
 public class BattleManager : MonoBehaviour
@@ -18,26 +20,102 @@ public class BattleManager : MonoBehaviour
     public TMP_Text heroNameAndHPText;
     public TMP_Text currentTurnTakerText;
     public GameObject abilityPanel;
-    List<AbilityData> abilities;
+    List<AbilityData> abilities = new();
+    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+
 
 
     void Start()
     {
+        GameObject heroObj = GameObject.Find("HeroUnit");
+        hero = heroObj.AddComponent<Hero>();
+
+        GameObject enemyObject = GameObject.Find("EnemyUnit");
+        enemy = enemyObject.AddComponent<Enemy>();
+
+        hero.SetName("Hero");
+        enemy.SetName("Dragon");
+
+        int toLoad = PlayerPrefs.GetInt("toLoad", 0);
+
         attackButton = GameObject.Find("AttackButton");
         abilitiesButton = GameObject.Find("AbilitiesButton");
 
-
-        SpawnHero();
-        SpawnEnemy();
-        SetStartingUnit();
+        if (File.Exists(saveFilePath) && toLoad == 1)
+        {
+            LoadGame();
+        }
+        else
+        {
+            SpawnHero();
+            SpawnEnemy();
+            SetStartingUnit();
+        }
         SetAbilities();
         HideAbilites();
         TakeAction();
     }
 
+    private void LoadGame()
+    {
+        abilities.Clear();
+        hero.GetAbilites().Clear();
+        List<string> data = SaveGame.Load();
+        PlayerPrefs.SetString("BattleCount", data[0]);
+        if (data[1] == "Hero")
+        {
+            currentTurnTaker = hero;
+        }
+        else
+        {
+            currentTurnTaker = enemy;
+        }
+        int abilityTracker = 2;
+        AbilityData[] allAbilities = Resources.LoadAll<AbilityData>("Abilities");
+        while (!int.TryParse(data[abilityTracker], out _))
+        {
+            AbilityData obj = null;
+            foreach (var ability in allAbilities)
+            {
+                if (ability.abilityName == data[abilityTracker])
+                {
+                    obj = ability;
+                    break;
+                }
+            }
+            Debug.Log(obj.abilityName);
+            hero.AddAbility(obj);
+            abilityTracker++;
+        }
+        hero.SetMaxHP(int.Parse(data[abilityTracker]));
+        hero.SetCurrentHP(int.Parse(data[abilityTracker + 1]));
+
+        switch (data[abilityTracker + 2])
+        {
+            case "Default":
+                hero.SetCurrentState(new DefaultState(hero));
+                break;
+            case "Beserk":
+                hero.SetCurrentState(new BeserkState(hero, enemy, 3, 5));
+                break;
+            case "Focused":
+                hero.SetCurrentState(new FocusedState(hero, enemy, 2, 40));
+                break;
+        }
+        enemy.SetMaxHP(int.Parse(data[abilityTracker + 3]));
+        enemy.SetCurrentHP(int.Parse(data[abilityTracker + 4]));
+
+        switch (data[abilityTracker + 5])
+        {
+            case "Poison":
+                enemy.SetCurrentState(new PoisonState(enemy, 3, 5));
+                break;
+        }
+
+    }
+
     private void TakeAction()
     {
-        Debug.Log(enemy.GetCurrentState());
         AfterAction();
         if (currentTurnTaker == enemy)
         {
@@ -49,10 +127,8 @@ public class BattleManager : MonoBehaviour
         {
             currentTurnTakerText.text = "Current Turn: " + hero.GetName();
             hero.ExecuteState();
-            Debug.Log(hero.GetCurrentState());
             if (hero.GetCurrentState().GetType() == typeof(BeserkState) || hero.GetCurrentState().GetType() == typeof(FocusedState))
             {
-                Debug.Log("I am here");
                 DisablePlayerButtons();
                 currentTurnTaker = enemy;
                 TakeAction();
@@ -119,10 +195,15 @@ public class BattleManager : MonoBehaviour
         foreach(AbilityData ability in abilities)
         {
             abilityPanel.transform.Find("Ability" + currentAbility).GetComponent<Button>().GetComponentInChildren<TextMeshProUGUI>().text = ability.abilityName;
-            Debug.Log(ability.description);
             abilityPanel.transform.Find("Ability" + currentAbility).GetComponent<AbilityButtonHover>().SetHoverText(ability.description);
-
             currentAbility++;
+        }
+
+        for (int i = currentAbility; i < 5; i++)
+        {
+            Transform abilityButton = abilityPanel.transform.Find("Ability" + i);
+            abilityButton.gameObject.SetActive(false);
+           
         }
     }
 
@@ -207,21 +288,18 @@ public class BattleManager : MonoBehaviour
 
     private void SpawnHero()
     {
-        GameObject heroObj = GameObject.Find("HeroUnit");
-        hero = heroObj.AddComponent<Hero>();
         hero.Initialize("Hero");
     }
 
     private void SpawnEnemy()
     {
-        GameObject enemyObject = GameObject.Find("EnemyUnit");
-        enemy = enemyObject.AddComponent<Enemy>();
         enemy.Initialize("Enemy");
     }
 
     public void PauseGame()
     {
-
+        SaveGame.Save(hero, enemy, currentTurnTaker);
+        SaveGame.Load();
 
         SceneManager.LoadScene("PauseMenu", LoadSceneMode.Single);
     }

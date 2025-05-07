@@ -36,4 +36,10 @@ public class PoisonState : IUnitState
     public void Exit() 
     { 
     }
+
+    override
+    public string ToString()
+    {
+        return "Poison";
+    }
 }

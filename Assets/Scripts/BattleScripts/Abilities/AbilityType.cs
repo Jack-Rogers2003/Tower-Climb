@@ -14,4 +14,10 @@ public class AbilityData : ScriptableObject
 
     }
 
+    override
+    public string ToString()
+    {
+        return abilityName;
+    }
+
 }
