@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
@@ -12,6 +13,8 @@ public class ChooseAbilityManager : MonoBehaviour
     public GameObject togglePrefab; 
     private static readonly List<AbilityData> chosenAbilities = new();
     private readonly List<(Toggle, UnityAction<bool>)> toggles = new();
+    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+
 
 
 
@@ -64,7 +67,19 @@ public class ChooseAbilityManager : MonoBehaviour
     public void StartBattleButton()
     {
         PlayerPrefs.SetString("BattleCount", "0");
-
+        if (File.Exists(saveFilePath))
+        {
+            try
+            {
+                File.Delete(saveFilePath);
+                Debug.Log("Existing file deleted.");
+            }
+            catch (IOException ioEx)
+            {
+                Debug.LogError("Error deleting the file: " + ioEx.Message);
+                return;
+            }
+        }
         SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
 
     }
