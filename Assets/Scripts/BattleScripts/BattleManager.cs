@@ -62,6 +62,7 @@ public class BattleManager : MonoBehaviour
         hero.GetAbilites().Clear();
         List<string> data = SaveGame.Load();
         PlayerPrefs.SetString("BattleCount", data[0]);
+        PlayerPrefs.Save();
         if (data[1] == "Hero")
         {
             currentTurnTaker = hero;
@@ -254,6 +255,7 @@ public class BattleManager : MonoBehaviour
             PlayerPrefs.SetInt("HasWon", 0);
             SceneManager.LoadScene("WinLossScreen", LoadSceneMode.Single);
         }
+        PlayerPrefs.Save();
     }
 
     private void Update()

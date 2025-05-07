@@ -1,3 +1,4 @@
+using System.IO;
 using Firebase.Auth;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class OptionsHandler : MonoBehaviour
     public TMP_InputField userInput;
     public Button logOutButton;
     public Button changeNameButton;
+    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+
 
     private void Awake()
     {
@@ -51,6 +54,12 @@ public class OptionsHandler : MonoBehaviour
     public void LogOut()
     {
         DatabaseManager.LogOut();
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath);
+        }
         SceneManager.LoadScene("StartingScreen", LoadSceneMode.Single);
     }
 

@@ -39,6 +39,7 @@ public class BeserkState : IUnitState
     {
     }
 
+    override
     public string ToString()
     {
         return "Beserk";

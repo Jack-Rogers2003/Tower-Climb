@@ -44,7 +44,14 @@ public class DatabaseManager : MonoBehaviour
 
     public static string GetCurrentUserID()
     {
-        return auth.CurrentUser.UserId;
+        if (auth.CurrentUser != null && auth.CurrentUser.UserId != null)
+        {
+            return auth.CurrentUser.UserId;
+        }
+        else
+        {
+            return "guest";
+        }
     }
 
     public static void LogOut()

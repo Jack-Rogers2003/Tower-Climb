@@ -60,6 +60,7 @@ public class MenuController : MonoBehaviour
     public void LoadGame()
     {
         PlayerPrefs.SetInt("toLoad", 1);
+        PlayerPrefs.Save();
         SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
 
     }
