@@ -180,9 +180,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9041857363067568819}
     - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
+      propertyPath: dragonRoar
+      value: 
+      objectReference: {fileID: 8300000, guid: 4325c972430219f43a781e45e6939586, type: 3}
+    - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
       propertyPath: battleMusic
       value: 
       objectReference: {fileID: 9041857363067568820}
+    - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
+      propertyPath: swordAttack
+      value: 
+      objectReference: {fileID: 8300000, guid: 0dc31023124f5f241a7d141283cff6ea, type: 3}
     - target: {fileID: 9206326544640472815, guid: e960623cde746744fbbb3128573a97e6, type: 3}
       propertyPath: m_Name
       value: MusicPlayer

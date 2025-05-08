@@ -16,6 +16,8 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ExitGame()
     {
+        PlayerPrefs.SetString("BattleCount", "0");
+        PlayerPrefs.Save();
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single); 
     }
 
@@ -44,7 +46,7 @@ public class PauseMenuManager : MonoBehaviour
                     else
                     {
                         var higherPair = ranks[index - 1];
-                        nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("CurrentBattleCount", 0) + 1);
+                        nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("BattleCount", 0) + 1);
                     }
                 }
             }

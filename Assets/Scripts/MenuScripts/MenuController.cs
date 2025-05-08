@@ -17,9 +17,17 @@ public class MenuController : MonoBehaviour
     public void Start()
     {
         audioManager.PlayMenuMusic();
+        while (leaderboardButton == null)
+        {
+            return;  // Wait until the button is not null
+        }
         if (!DatabaseManager.IsLoggedIn())
         {
             leaderboardButton.interactable = false;
+        }
+        while (loadGameButton == null)
+        {
+            return;  
         }
         if (!File.Exists(saveFilePath))
         {
@@ -65,6 +73,10 @@ public class MenuController : MonoBehaviour
         PlayerPrefs.SetInt("toLoad", 1);
         PlayerPrefs.Save();
         SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
+    }
 
+    public void Credit()
+    {
+        System.Diagnostics.Process.Start(Path.Combine(Application.streamingAssetsPath, "credit.txt"));
     }
 }

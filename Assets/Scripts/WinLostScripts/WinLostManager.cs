@@ -45,6 +45,13 @@ public class WinLostManager : MonoBehaviour
 
     public void NextBattle()
     {
+        PlayerPrefs.SetInt("toLoad", 0);
+
+        PlayerPrefs.Save();
+        if (File.Exists(saveFilePath))
+        {
+            File.Delete(saveFilePath);
+        }
         SceneManager.LoadScene("ChooseAbilities", LoadSceneMode.Single);
     }
 

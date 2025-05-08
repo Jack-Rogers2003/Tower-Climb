@@ -66,7 +66,6 @@ public class ChooseAbilityManager : MonoBehaviour
 
     public void StartBattleButton()
     {
-        PlayerPrefs.SetString("BattleCount", "0");
         PlayerPrefs.Save();
         if (File.Exists(saveFilePath))
         {

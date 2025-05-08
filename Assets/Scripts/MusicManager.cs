@@ -1,4 +1,5 @@
 using System;
+using NUnit.Framework.Internal;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -10,6 +11,8 @@ public class AudioManager : MonoBehaviour
     public AudioSource battleMusic;
     private AudioSource currentMusic;
     public AudioClip rankUp;
+    public AudioClip swordAttack;
+    public AudioClip dragonRoar;
 
     private const string VolumeKey = "MusicVolume"; // Key for saving volume
 
@@ -35,7 +38,16 @@ public class AudioManager : MonoBehaviour
     internal void PlayRankUpSound()
     {
         currentMusic.PlayOneShot(rankUp);
+    }
 
+    internal void PlaySwordAttack()
+    {
+        currentMusic.PlayOneShot(swordAttack);
+    }
+
+    internal void PlayDragonRoar()
+    {
+        currentMusic.PlayOneShot(dragonRoar);
     }
 
     private void PlayMusic()

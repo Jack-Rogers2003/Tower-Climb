@@ -1,0 +1,11 @@
+https://gheedu.itch.io/2d-status-effect-aura-shader - shaders
+https://novasypher.itch.io/status-effect-icon - status icons for animation
+https://zeno.itch.io/status-ailment-icons - status icon after effect
+https://trulymalicious.itch.io/status-icon-set-1-free - status icons fancy
+https://nyknck.itch.io/attack-animation - attack animation
+https://megumi-ryu.itch.io/mp3onedecisive-battle-16bit - battle music
+https://bkx1.itch.io/ - sprites and background during battle
+https://www.deviantart.com/ruuruu-chan/gallery - Battle UI Template
+https://pixabay.com/sound-effects/menu-53679/ - Menu Music
+https://pixabay.com/sound-effects/menu-button-89141/ - Button sound effect
+https://pixabay.com/sound-effects/yay-6326/ - yay sound effect

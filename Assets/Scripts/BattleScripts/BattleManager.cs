@@ -126,7 +126,7 @@ public class BattleManager : MonoBehaviour
         {
             DisablePlayerButtons();
             currentTurnTakerText.text = "Current Turn: " + enemy.GetName();
-            StartCoroutine(Wait());
+            EnemyAttack();
         }
         else
         {
@@ -139,14 +139,6 @@ public class BattleManager : MonoBehaviour
                 TakeAction();
             }
         }
-    }
-
-    private IEnumerator Wait()
-    {
-        yield return new WaitForSeconds(0f);
-        EnemyAttack();
-        EnablePlayerButtons();
-
     }
 
     private void DisablePlayerButtons()
@@ -166,17 +158,62 @@ public class BattleManager : MonoBehaviour
 
     private void AttackButton()
     {
+        DisablePlayerButtons();
+        StartCoroutine(HeroMoveAndContinue(260));
+        audioManager.PlaySwordAttack();
         enemy.DamageUnit(10);
+    }
+
+    IEnumerator HeroMoveAndContinue(int moveTo)
+    {
+        yield return StartCoroutine(MoveX(hero, moveTo));
         currentTurnTaker = enemy;
         TakeAction();
     }
 
-    private void EnemyAttack()
-    {           
-        hero.DamageUnit(10);
+    IEnumerator MoveX(Unit obj, float targetX)
+    {
+        RectTransform rect = obj.GetComponent<RectTransform>();
+        Vector2 originalPos = rect.anchoredPosition;
+        Vector2 targetPos = new(targetX, originalPos.y);
+        float t = 0f;
+
+        while (Vector2.Distance(rect.anchoredPosition, targetPos) > 0.1f)
+        {
+            t += Time.deltaTime * 2f;
+            rect.anchoredPosition = Vector2.Lerp(originalPos, targetPos, t);
+            yield return null;
+        }
+
+        rect.anchoredPosition = targetPos;
+
+        yield return new WaitForSeconds(0.2f);
+
+        t = 0f;
+        while (Vector2.Distance(rect.anchoredPosition, originalPos) > 0.1f)
+        {
+            t += Time.deltaTime * 2f;
+            rect.anchoredPosition = Vector2.Lerp(targetPos, originalPos, t);
+            yield return null;
+        }
+
+        rect.anchoredPosition = originalPos;
+    }
+
+    IEnumerator EnemyMoveAndContinue(int moveTo)
+    {
+        yield return StartCoroutine(MoveX(enemy, moveTo));
+        EnablePlayerButtons();
         currentTurnTaker = hero;
-        enemy.ExecuteState();
         TakeAction();
+    }
+
+
+    private void EnemyAttack()
+    {
+        StartCoroutine(EnemyMoveAndContinue(-440));
+        audioManager.PlayDragonRoar();
+        hero.DamageUnit(10);
     }
 
     public void HideAbilites()
