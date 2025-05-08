@@ -131,49 +131,66 @@ public class DatabaseManager : MonoBehaviour
         return keyValues;
     }
 
-    public static void Login(string email, string password)
+    public static Task Login(string email, string password)
     {
-        auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
-            if (task.IsCompleted)
+        var loginTask = auth.SignInWithEmailAndPasswordAsync(email, password);
+
+        // Ensure the login task completes first
+        return loginTask.ContinueWith(task =>
+        {
+            if (task.IsFaulted)
             {
-                reference.GetValueAsync().ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCompleted)
-                    {
-                        DataSnapshot snapshot = task.Result;
-                        foreach (DataSnapshot childSnapshot in snapshot.Children)
-                        {
-                            if (childSnapshot.Child("email").Value == null)
-                            {
-                                continue;
-                            }
-                            if (childSnapshot.Child("email").Value.ToString() == email)
-                            {
-                                PlayerPrefs.SetString("id", childSnapshot.Key.ToString());
-                                PlayerPrefs.SetString("UserName", childSnapshot.Child("Username").Value.ToString());
-                                PlayerPrefs.Save(); 
-                                return;
-                            }
-                        }
-                    }
-                });
+                Debug.LogError("Login failed: " + task.Exception);
+                return Task.CompletedTask;
             }
+
+            // Run the database fetch task only after successful login
+            var fetchDataTask = reference.GetValueAsync();
+
+            fetchDataTask.ContinueWithOnMainThread(innerTask =>
+            {
+                if (innerTask.IsFaulted)
+                {
+                    Debug.LogError("Failed to fetch data: " + innerTask.Exception);
+                    return;
+                }
+
+                DataSnapshot snapshot = innerTask.Result;
+                foreach (DataSnapshot childSnapshot in snapshot.Children)
+                {
+                    if (childSnapshot.Child("email").Value == null)
+                    {
+                        continue;
+                    }
+                    if (childSnapshot.Child("email").Value.ToString() == email)
+                    {
+                        PlayerPrefs.SetString("id", childSnapshot.Key.ToString());
+                        PlayerPrefs.SetString("UserName", childSnapshot.Child("Username").Value.ToString());
+                        PlayerPrefs.Save();
+                        return;
+                    }
+                }
+            });
+
+            return fetchDataTask;
         });
     }
 
-    public static void CreateNewUser(string email, string password, string username)
+    public static Task CreateNewUser(string email, string password, string username)
     {
-        Debug.Log("Creating");
-        auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+        Debug.Log("I am here");
+        return auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
-            if (!task.IsCompleted && task.IsFaulted)
-                Debug.LogError("Error: " + task.Exception);
-            else
+            if (task.IsFaulted)
             {
-                CreateNewUser(username);
+                Debug.LogError("Error: " + task.Exception);
+                return;
             }
+
+            // Call CreateNewUser() before proceeding to the next steps
+            CreateNewUser(username);
         });
-       }
+    }
 
     public static void CreateNewUser(string username)
     {
@@ -181,10 +198,10 @@ public class DatabaseManager : MonoBehaviour
         {
             if (task.IsCompleted)
             {
+                Debug.Log("Creating user");
                 FirebaseUser user = auth.CurrentUser;
                 DataSnapshot snapshot = task.Result;
                 int id = (int)snapshot.ChildrenCount + 1;
-                reference.Child((id).ToString()).Child("id").SetValueAsync(user.UserId);
                 reference.Child((id).ToString()).Child("Username").SetValueAsync(username);
                 reference.Child((id).ToString()).Child("Battles").SetValueAsync("0");
 

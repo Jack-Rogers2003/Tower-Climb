@@ -14,6 +14,7 @@ public class WinLostManager : MonoBehaviour
 
     private async void Awake()
     {
+        AudioManager.GetInstance().PauseMusic();
         battleCount.text = "Final Battle Count: " + PlayerPrefs.GetString("BattleCount", "0");
 
         if (PlayerPrefs.GetInt("HasWon", 0) == 0)
@@ -35,6 +36,7 @@ public class WinLostManager : MonoBehaviour
 
                 if (flag)
                 {
+                    AudioManager.GetInstance().PlayRankUpSound();
                     header.text += "You Ranked up!";
                 }
             }

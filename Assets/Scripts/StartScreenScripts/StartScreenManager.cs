@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,14 +32,13 @@ public class StartScreenManager : MonoBehaviour
     // Quit the game
     public void ExitScreen()
     {
-        Application.Quit();  // This will close the game
-#if UNITY_EDITOR
+        Application.Quit(); 
+        #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
-#endif
-        // Stop the game in the editor
+        #endif
     }
 
-    public void Login()
+    public async void Login()
     {
         if (string.IsNullOrWhiteSpace(loginEmail.text))
         {
@@ -50,7 +50,7 @@ public class StartScreenManager : MonoBehaviour
         }
         else
         {
-            DatabaseManager.Login(loginEmail.text, loginPassword.text);
+            await DatabaseManager.Login(loginEmail.text, loginPassword.text);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
     }
@@ -60,13 +60,14 @@ public class StartScreenManager : MonoBehaviour
         return Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
     }
 
-    public void SignUp()
+    public async void SignUp()
     {
         if (string.IsNullOrEmpty(signupEmail.text))
         {
             header.text = "Please Enter Your Email";
 
-        } else if (!IsEmailValid(signupEmail.text))
+        }
+        else if (!IsEmailValid(signupEmail.text))
         {
             header.text = "Please Enter a Valid Email";
 
@@ -92,8 +93,8 @@ public class StartScreenManager : MonoBehaviour
         {
             header.text = "Password must be of length 6 or greater";
         }
-        {
-            DatabaseManager.CreateNewUser(signupEmail.text, signupPassword.text, username.text);
+        else { 
+            await DatabaseManager.CreateNewUser(signupEmail.text, signupPassword.text, username.text);
             SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
     }

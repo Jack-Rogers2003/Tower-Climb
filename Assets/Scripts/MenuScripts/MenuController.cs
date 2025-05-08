@@ -10,10 +10,13 @@ public class MenuController : MonoBehaviour
     public Button leaderboardButton;
     public Button loadGameButton;
     private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+    private readonly AudioManager audioManager = AudioManager.GetInstance();
+
 
 
     public void Start()
     {
+        audioManager.PlayMenuMusic();
         if (!DatabaseManager.IsLoggedIn())
         {
             leaderboardButton.interactable = false;

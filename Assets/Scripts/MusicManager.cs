@@ -1,9 +1,16 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class AudioManager : MonoBehaviour
 {
     private static AudioManager instance;
-    private AudioSource audioSource;
+    public AudioSource menuMusic;
+    public AudioSource battleMusic;
+    private AudioSource currentMusic;
+    public AudioClip rankUp;
+
     private const string VolumeKey = "MusicVolume"; // Key for saving volume
 
     void Awake()
@@ -20,22 +27,75 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Get or Add AudioSource
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-            audioSource = gameObject.AddComponent<AudioSource>();
+        currentMusic = menuMusic;
 
-        // Load the saved volume setting
-        audioSource.volume = PlayerPrefs.GetFloat(VolumeKey, 0.5f);
-        audioSource.loop = true;
-        audioSource.Play();
+        PlayMusic();
+    }
+
+    internal void PlayRankUpSound()
+    {
+        currentMusic.PlayOneShot(rankUp);
+
+    }
+
+    private void PlayMusic()
+    {
+        currentMusic.volume = PlayerPrefs.GetFloat(VolumeKey, 0.5f);
+        currentMusic.loop = true;
+        currentMusic.Play();
     }
 
     // Method to set volume from Options Menu
     public void SetVolume(float volume)
     {
-        audioSource.volume = volume;
+        menuMusic.volume = volume;
         PlayerPrefs.SetFloat(VolumeKey, volume);  // Save volume setting
         PlayerPrefs.Save();
+    }
+
+    internal static AudioManager GetInstance()
+    {
+        return instance;
+    }
+
+    internal void StopMusic()
+    {
+        instance.StopMusic();
+        instance = null;
+    }
+
+    internal void PauseMusic()
+    {
+        currentMusic.Pause();
+    }
+
+    internal void ResumeMusic()
+    {
+        currentMusic.UnPause();
+    }
+
+    internal void PlayBattleMusic()
+    {
+        if (!currentMusic.isPlaying && currentMusic == battleMusic)
+        {
+            ResumeMusic();
+        }
+        else
+        {
+            currentMusic.Stop();
+            currentMusic = battleMusic;
+            PlayMusic();
+        }
+    }
+
+    internal void PlayMenuMusic()
+    {
+        if (currentMusic != menuMusic)
+        {
+            currentMusic.Stop();
+            // Load the saved volume setting
+            currentMusic = menuMusic;
+            PlayMusic();
+        }
     }
 }

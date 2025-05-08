@@ -21,12 +21,16 @@ public class BattleManager : MonoBehaviour
     public TMP_Text currentTurnTakerText;
     public GameObject abilityPanel;
     List<AbilityData> abilities = new();
+    private readonly AudioManager audioManager = AudioManager.GetInstance();
+
     private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
 
 
 
     void Start()
     {
+        audioManager.PlayBattleMusic();
+
         GameObject heroObj = GameObject.Find("HeroUnit");
         hero = heroObj.AddComponent<Hero>();
 
@@ -302,7 +306,7 @@ public class BattleManager : MonoBehaviour
     {
         SaveGame.Save(hero, enemy, currentTurnTaker);
         SaveGame.Load();
-
+        audioManager.PauseMusic();
         SceneManager.LoadScene("PauseMenu", LoadSceneMode.Single);
     }
 }

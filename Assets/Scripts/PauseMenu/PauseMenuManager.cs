@@ -44,7 +44,7 @@ public class PauseMenuManager : MonoBehaviour
                     else
                     {
                         var higherPair = ranks[index - 1];
-                        nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("CurrentBattleCount", 0));
+                        nextRank.text = "To next rank: " + (int.Parse(higherPair.Item2) - PlayerPrefs.GetInt("CurrentBattleCount", 0) + 1);
                     }
                 }
             }
