@@ -13,6 +13,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip rankUp;
     public AudioClip swordAttack;
     public AudioClip dragonRoar;
+    public AudioClip healSound;
 
     private const string VolumeKey = "MusicVolume"; // Key for saving volume
 
@@ -38,6 +39,11 @@ public class AudioManager : MonoBehaviour
     internal void PlayRankUpSound()
     {
         currentMusic.PlayOneShot(rankUp);
+    }
+
+    internal void PlayHealSound()
+    {
+        currentMusic.PlayOneShot(healSound);
     }
 
     internal void PlaySwordAttack()

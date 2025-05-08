@@ -127,6 +127,7 @@ public class BattleManager : MonoBehaviour
             DisablePlayerButtons();
             currentTurnTakerText.text = "Current Turn: " + enemy.GetName();
             EnemyAttack();
+            enemy.ExecuteState();
         }
         else
         {
@@ -263,7 +264,6 @@ public class BattleManager : MonoBehaviour
             else if (selectedAbility is FocusedAttack focusedAttack)
             {
                 focusedAttack.Focused(hero, enemy);
-
             }
             else
             {
@@ -275,8 +275,8 @@ public class BattleManager : MonoBehaviour
             selectedAbility.UseAbility(enemy);
         }
         HideAbilites();
-        currentTurnTaker = enemy;
-        TakeAction();
+        DisablePlayerButtons();
+        StartCoroutine(HeroMoveAndContinue(440));
     }
 
     void AfterAction()

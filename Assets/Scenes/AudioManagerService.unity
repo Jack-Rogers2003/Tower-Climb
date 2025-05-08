@@ -176,6 +176,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 3678c0e7872a1c34db86753d03589b7b, type: 3}
     - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
+      propertyPath: healSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 2d5a2744d69e71c4299b9dd2d9c41124, type: 3}
+    - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
       propertyPath: menuMusic
       value: 
       objectReference: {fileID: 9041857363067568819}
