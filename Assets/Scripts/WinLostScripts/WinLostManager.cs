@@ -9,11 +9,12 @@ public class WinLostManager : MonoBehaviour
     public TMP_Text battleCount;
     public TMP_Text header;
     public Button nextRoundButton;
-    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+    private string saveFilePath;
 
 
     private async void Awake()
     {
+        saveFilePath = SaveGame.GetFilePath();
         AudioManager.GetInstance().PauseMusic();
         battleCount.text = "Final Battle Count: " + PlayerPrefs.GetString("BattleCount", "0");
 

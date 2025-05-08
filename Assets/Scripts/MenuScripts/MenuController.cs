@@ -9,13 +9,14 @@ public class MenuController : MonoBehaviour
 
     public Button leaderboardButton;
     public Button loadGameButton;
-    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+    private string saveFilePath;
     private readonly AudioManager audioManager = AudioManager.GetInstance();
 
 
 
     public void Start()
     {
+        saveFilePath = SaveGame.GetFilePath();
         audioManager.PlayMenuMusic();
         while (leaderboardButton == null)
         {

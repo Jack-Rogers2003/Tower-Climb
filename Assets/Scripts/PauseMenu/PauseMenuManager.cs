@@ -23,6 +23,8 @@ public class PauseMenuManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        PlayerPrefs.SetInt("toLoad", 1);
+        PlayerPrefs.Save();
         SceneManager.LoadScene("BattleScreen", LoadSceneMode.Single);
 
     }

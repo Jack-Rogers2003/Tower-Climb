@@ -13,13 +13,14 @@ public class ChooseAbilityManager : MonoBehaviour
     public GameObject togglePrefab; 
     private static readonly List<AbilityData> chosenAbilities = new();
     private readonly List<(Toggle, UnityAction<bool>)> toggles = new();
-    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+    private string saveFilePath;
 
 
 
 
     void Start()
     {
+        saveFilePath = SaveGame.GetFilePath();
         AbilityData[] allAbilities = Resources.LoadAll<AbilityData>("Abilities");
         foreach (AbilityData ability in allAbilities)
         {

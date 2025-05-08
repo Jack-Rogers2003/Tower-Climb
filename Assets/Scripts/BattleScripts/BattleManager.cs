@@ -23,12 +23,12 @@ public class BattleManager : MonoBehaviour
     List<AbilityData> abilities = new();
     private readonly AudioManager audioManager = AudioManager.GetInstance();
 
-    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
-
-
+    private string saveFilePath;
 
     void Start()
     {
+        saveFilePath = Application.persistentDataPath + "/SaveFile.txt";
+
         audioManager.PlayBattleMusic();
 
         GameObject heroObj = GameObject.Find("HeroUnit");
@@ -88,7 +88,6 @@ public class BattleManager : MonoBehaviour
                     break;
                 }
             }
-            Debug.Log(obj.abilityName);
             hero.AddAbility(obj);
             abilityTracker++;
         }
@@ -138,6 +137,9 @@ public class BattleManager : MonoBehaviour
                 DisablePlayerButtons();
                 currentTurnTaker = enemy;
                 TakeAction();
+            } else
+            {
+                EnablePlayerButtons();
             }
         }
     }
@@ -252,8 +254,10 @@ public class BattleManager : MonoBehaviour
 
     public void AbilityButtonPress()
     {
+        Debug.Log("Pressed");
         string buttonName = EventSystem.current.currentSelectedGameObject.name;
         int lastChar = buttonName[^1] - '1';
+        Debug.Log(lastChar);
         AbilityData selectedAbility = abilities[lastChar];
         if (selectedAbility.type == AbilityType.self)
         {

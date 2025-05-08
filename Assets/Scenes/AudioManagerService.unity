@@ -192,6 +192,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 9041857363067568820}
     - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
+      propertyPath: poisonSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b4ee0105c9d27348928ec01c824f6a1, type: 3}
+    - target: {fileID: 8875259886054943581, guid: e960623cde746744fbbb3128573a97e6, type: 3}
       propertyPath: swordAttack
       value: 
       objectReference: {fileID: 8300000, guid: 0dc31023124f5f241a7d141283cff6ea, type: 3}

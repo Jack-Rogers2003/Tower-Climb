@@ -6,6 +6,8 @@ public class BeserkState : IUnitState
     private readonly Unit target;
     private readonly Unit beserker;
     private readonly int damage;
+    private readonly Sprite sprite = Resources.Load<Sprite>("Status/beserk_icon");
+    private readonly GameObject statusObject = GameObject.Find("HeroStatus");
 
 
     public BeserkState(Unit unit, Unit currentTarget, int timer, int damage)
@@ -19,6 +21,15 @@ public class BeserkState : IUnitState
 
     public void Enter()
     {
+        statusObject.SetActive(true);
+        if (statusObject && sprite)
+        {
+            SpriteRenderer renderer = statusObject.GetComponent<SpriteRenderer>();
+            if (renderer)
+            {
+                renderer.sprite = sprite;
+            }
+        }
     }
 
     public void Execute()
@@ -26,6 +37,7 @@ public class BeserkState : IUnitState
         Debug.Log(turns);
         if (turns != 0)
         {
+            AudioManager.GetInstance().PlaySwordAttack();
             target.DamageUnit(damage);
             turns--;
         }
@@ -37,6 +49,12 @@ public class BeserkState : IUnitState
 
     public void Exit()
     {
+        SpriteRenderer renderer = statusObject.GetComponent<SpriteRenderer>();
+
+        if (renderer)
+        {
+            renderer.sprite = null;
+        }
     }
 
     override

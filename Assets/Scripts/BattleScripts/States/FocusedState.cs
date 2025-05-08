@@ -31,11 +31,8 @@ public class FocusedState : IUnitState
             int randomNumber = Random.Range(1, 11);
             if (randomNumber >= 1 && randomNumber <= 5)
             {
+                AudioManager.GetInstance().PlaySwordAttack();
                 target.DamageUnit(damageAfterFocus);
-            }
-            else
-            {
-                Debug.Log("Broken!");
             }
             unit.ChangeState(new DefaultState(unit));
         }

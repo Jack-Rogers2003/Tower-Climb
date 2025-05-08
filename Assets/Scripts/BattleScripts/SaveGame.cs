@@ -20,7 +20,7 @@ using System.Linq;
 
 public static class SaveGame
 {
-    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
+    private static readonly string saveFilePath = Application.persistentDataPath + "/SaveFile.txt";
 
     public static void Save(Hero hero, Enemy enemy, Unit currentTurn)
     {
@@ -108,6 +108,11 @@ public static class SaveGame
         using StreamReader srDecrypt = new(csDecrypt);
 
         return srDecrypt.ReadToEnd();
+    }
+
+    public static string GetFilePath()
+    {
+        return saveFilePath;
     }
 
 }

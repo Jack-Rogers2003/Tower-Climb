@@ -11,11 +11,12 @@ public class OptionsHandler : MonoBehaviour
     public TMP_InputField userInput;
     public Button logOutButton;
     public Button changeNameButton;
-    private static readonly string saveFilePath = "Assets/Resources/Save/SaveFile.txt";
-
+    private string saveFilePath;
 
     private void Awake()
     {
+        saveFilePath = SaveGame.GetFilePath();
+
         if (!DatabaseManager.IsLoggedIn())
         {
             logOutButton.interactable = false;
