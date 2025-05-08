@@ -115,7 +115,6 @@ public class DatabaseManager : MonoBehaviour
 
                     if (username == null || battles == null)
                     {
-                        Debug.LogWarning($"Value was null for key: {key}, Username: {username}, Battles: {battles}");
                         continue;
                     }
 
@@ -178,7 +177,6 @@ public class DatabaseManager : MonoBehaviour
 
     public static Task CreateNewUser(string email, string password, string username)
     {
-        Debug.Log("I am here");
         return auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
         {
             if (task.IsFaulted)
@@ -187,23 +185,23 @@ public class DatabaseManager : MonoBehaviour
                 return;
             }
 
-            // Call CreateNewUser() before proceeding to the next steps
-            CreateNewUser(username);
+            CreateNewUser(username, email);
         });
     }
 
-    public static void CreateNewUser(string username)
+    public static void CreateNewUser(string username, string email)
     {
         reference.GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsCompleted)
             {
-                Debug.Log("Creating user");
                 FirebaseUser user = auth.CurrentUser;
                 DataSnapshot snapshot = task.Result;
                 int id = (int)snapshot.ChildrenCount + 1;
                 reference.Child((id).ToString()).Child("Username").SetValueAsync(username);
                 reference.Child((id).ToString()).Child("Battles").SetValueAsync("0");
+                reference.Child((id).ToString()).Child("email").SetValueAsync(email);
+
 
                 PlayerPrefs.SetString("id", id.ToString());
                 PlayerPrefs.SetString("UserName", username.ToString());
